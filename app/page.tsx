@@ -1,5 +1,11 @@
+import Nav from './components/Nav';
+
 const Home = () => {
-  return <h1>Hello World</h1>;
+  return (
+    <div className="relative">
+      <Nav />
+    </div>
+  );
 };
 
 export default Home;

@@ -10,7 +10,9 @@ const config: Config = {
     extend: {
       colors: {
         primary: 'var(--color-primary)',
-        secondary: 'var(--color-secondary)'
+        secondary: 'var(--color-secondary)',
+        'navigation-icon': '#B8B8B8',
+        'navigation-icon-hover': 'rgba(0, 0, 0, 0.04)'
       }
     }
   },
