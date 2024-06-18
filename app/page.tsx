@@ -1,10 +1,7 @@
-import Nav from './components/Nav';
 
 const Home = () => {
   return (
-    <div className="relative">
-      <Nav />
-    </div>
+    <h1>Home Page</h1>
   );
 };
 
