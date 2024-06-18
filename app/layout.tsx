@@ -21,7 +21,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="relative flex justify-center">
           <Nav />
-          <main className="max-w-[650px] bg-red-400">{children}</main>
+          <main className="max-w-[600px] w-screen h-screen bg-red-400 rounded-t-3xl p-5 border bg-secondary text-primary mt-14">
+            {children}
+          </main>
         </div>
       </body>
     </html>
