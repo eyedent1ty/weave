@@ -17,7 +17,7 @@ const NavigationIcon = ({
   return (
     <Link
       href={href}
-      className={`h-full w-full flex items-center justify-center rounded-lg ${active ? 'bg-navigation-icon-hover' : ''} hover:bg-navigation-icon-hover transition-background-color ease duration-300 ${className}`}
+      className={`h-full w-full flex items-center justify-center rounded-lg ${active ? 'bg-navigation-icon-hover dark:bg-primary' : ''} hover:bg-navigation-icon-hover dark:hover:bg-primary transition-background-color ease duration-300 ${className}`}
     >
       <Icon
         icon={(active ? activeIcon : icon) || icon}
