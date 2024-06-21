@@ -4,8 +4,6 @@ import { usePathname } from 'next/navigation';
 import { Icon } from '@iconify/react';
 
 import Link from 'next/link';
-import Image from 'next/image';
-import brand from '../../public/brand.svg';
 import NavigationIcon from './NavigationIcon';
 import MenuDialog from './MenuDialog';
 import useMenuDialog from '../../hooks/useMenuDialog';
@@ -43,15 +41,9 @@ const Nav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 w-screen flex bg-secondary sm:left-0 sm:h-screen sm:w-[76px] sm:flex sm:flex-col sm:justify-between sm:items-center">
-      <Link href="/" className="hidden sm:block">
-        <Image
-          src={brand}
-          alt="Weave Logo"
-          width={34}
-          height={34}
-          className="py-4"
-        />
+    <nav className="fixed bottom-0 w-screen flex bg-primary text-secondary sm:left-0 sm:h-screen sm:w-[76px] sm:flex sm:flex-col sm:justify-between sm:items-center">
+      <Link href="/" className="hidden sm:block py-4">
+        <Icon icon="icon-park-solid:three-triangles" fontSize={34} className="text-secondary" />
       </Link>
       <ul className="w-full grid grid-cols-4 sm:w-auto sm:block sm:space-y-1">
         {navitationDetails.map((navigationDetail) => (

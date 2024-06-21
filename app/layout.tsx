@@ -19,9 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="relative flex justify-center">
+        <div className="relative flex justify-center bg-primary text-secondary">
           <Nav />
-          <main className="sm:mx-[76px] sm:max-w-[600px] w-screen h-screen bg-red-400 sm:rounded-t-3xl p-5 sm:border bg-secondary text-primary mt-14">
+          <main className="sm:mx-[76px] sm:max-w-[600px] w-screen h-screen bg-red-400 sm:rounded-t-3xl p-5 sm:border bg-primary text-secondary mt-14">
             {children}
           </main>
         </div>

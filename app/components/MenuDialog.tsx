@@ -10,6 +10,7 @@ const MenuDialog = ({
 }) => {
   const drawer = useRef<HTMLDivElement>(null);
   const [apperanceSetting, setApperanceSetting] = useState(false);
+  const [selectedTheme, setSelectedTheme] = useState<'LIGHT' | 'DARK'>('LIGHT');
 
   const handleClickOutside = (e: Event) => {
     if (
@@ -17,6 +18,7 @@ const MenuDialog = ({
       !drawer.current?.contains(e.target as Node)
     ) {
       onClickOutside();
+      setApperanceSetting(false);
     }
   };
 
@@ -28,11 +30,21 @@ const MenuDialog = ({
     };
   });
 
+  const handleClickLightTheme = () => {
+    document.body.classList.remove('dark');
+    setSelectedTheme('LIGHT')
+  };
+
+  const handleClickDarkTheme = () => {
+    document.body.classList.add('dark');
+    setSelectedTheme('DARK');
+  };
+
   return (
     <div
       ref={drawer}
-      className={`shadow-lg opacity-0 -z-10 absolute bg-secondary bottom-0 left-0 w-[240px] border rounded-2xl 
-        ${isOpen && !apperanceSetting ? 'animate-slide-up z-0' : ''} ${apperanceSetting ? 'animate-slide-next z-0' : ''}
+      className={`shadow-lg opacity-0 -z-10 absolute bg-primary text-secondary bottom-0 left-0 w-[240px] border rounded-2xl text-primary
+        ${isOpen && !apperanceSetting ? 'animate-slide-up z-0' : ''} ${isOpen && apperanceSetting ? 'animate-slide-next z-0' : ''}
       `}
     >
       {apperanceSetting ? (
@@ -45,10 +57,10 @@ const MenuDialog = ({
             <div></div>
           </div>
           <div className="grid grid-cols-3 bg-navigation-icon-hover rounded-xl">
-            <button type="button" className="flex justify-center items-center">
+            <button type="button" className="flex justify-center items-center" onClick={handleClickLightTheme}>
               <Icon icon="ph:sun" fontSize={24} />
             </button>
-            <button type="button" className="flex justify-center items-center">
+            <button type="button" className="flex justify-center items-center" onClick={handleClickDarkTheme}>
               <Icon icon="ph:moon" fontSize={24} />
             </button>
             <button

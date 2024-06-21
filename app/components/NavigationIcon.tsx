@@ -23,7 +23,7 @@ const NavigationIcon = ({
         icon={(active ? activeIcon : icon) || icon}
         fontSize={24}
         className={`text-navigation-icon ${className} ${
-          active ? 'text-primary' : ''
+          active ? 'text-secondary' : ''
         }`}
       />
     </Link>
