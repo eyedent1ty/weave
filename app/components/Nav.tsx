@@ -41,7 +41,7 @@ const Nav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 w-screen flex bg-primary text-secondary sm:left-0 sm:h-screen sm:w-[76px] sm:flex sm:flex-col sm:justify-between sm:items-center">
+    <nav className="fixed bottom-0 w-screen flex bg-inherit text-secondary sm:left-0 sm:h-screen sm:w-[76px] sm:flex sm:flex-col sm:justify-between sm:items-center">
       <Link href="/" className="hidden sm:block py-4">
         <Icon icon="icon-park-solid:three-triangles" fontSize={34} className="text-secondary" />
       </Link>

@@ -5,9 +5,11 @@
 :root {
   --color-primary: #ffffff;
   --color-secondary: #171717;
+  --color-tertiary: #FAFAFA;
 }
 
 .dark {
   --color-primary: #171717;
   --color-secondary: #ffffff;
+  --color-tertiary: #0A0A0A;
 }
