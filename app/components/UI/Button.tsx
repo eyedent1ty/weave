@@ -9,7 +9,7 @@ interface ButtonProps {
 const Button: FC<ButtonProps> = ({ children, type, onClick }) => {
   return (
     <button
-      className="border border-navigation-icon px-4 py-1 rounded-lg font-semibold text-secondary bg-primary"
+      className="border border-border-color px-4 py-1 rounded-lg font-semibold text-secondary bg-primary"
       type={type}
       onClick={onClick}
     >

@@ -105,7 +105,7 @@ const PostDialog = () => {
       ></div>
       <dialog
         open
-        className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary rounded-3xl px-6 pt-6 pb-4 fixed z-50 top-1/2 -translate-y-3/4"
+        className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary text-secondary border border-border-color rounded-3xl px-6 pt-6 pb-4 fixed z-50 top-1/2 -translate-y-3/4"
         ref={dialogRef}
       >
         <form className="flex flex-col h-auto" onSubmit={handleCreateNewPost}>
@@ -116,7 +116,7 @@ const PostDialog = () => {
                 icon="carbon:user-avatar-filled"
                 fontSize={36}
               />
-              <div className="border-l-2 border-navigation-icon min-h-8 flex-1"></div>
+              <div className="border-l-2 border-border-color min-h-8 flex-1"></div>
               <Icon
                 className="mt-2"
                 icon="carbon:user-avatar-filled"
@@ -139,7 +139,7 @@ const PostDialog = () => {
                   <Icon
                     icon="bi:image"
                     fontSize={30}
-                    className="text-secondary cursor-pointer p-1 border border-primary hover:border-secondary rounded"
+                    className="text-secondary cursor-pointer p-1 border border-border-color hover:border-secondary rounded"
                   />
                 </label>
                 <input
@@ -162,7 +162,7 @@ const PostDialog = () => {
                   : 'Only followers can reply & share'}
               </p>
               <div
-                className={`absolute -z-10 left-[-10px] shadow-lg opacity-0  bg-primary text-secondaryw-[240px] border border-navigation-icon rounded-2xl max-h-[120px]
+                className={`absolute -z-10 left-[-10px] shadow-lg opacity-0  bg-primary text-secondaryw-[240px] border border-border-color rounded-2xl max-h-[120px]
                 ${isPostAudienceOpen ? 'animate-slide-up z-10' : ''}`}
               >
                 <div className="absolute -z-10 w-full h-full grid grid-rows-2 grid-cols-1 p-3">
