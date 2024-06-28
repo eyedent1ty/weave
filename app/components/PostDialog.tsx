@@ -111,8 +111,8 @@ const PostDialog = () => {
                   : 'Only followers can reply & share'}
               </p>
               <div
-                className={`shadow-lg opacity-0 absolute bg-primary text-secondary left-[-10px] w-[240px] border border-navigation-icon rounded-2xl max-h-[120px]
-                ${isPostAudienceOpen ? 'animate-slide-up' : ''}`}
+                className={`shadow-lg opacity-0 -z-10 absolute bg-primary text-secondary left-[-10px] w-[240px] border border-navigation-icon rounded-2xl max-h-[120px]
+                ${isPostAudienceOpen ? 'animate-slide-up z-10' : ''}`}
               >
                 <div className="w-full h-full grid grid-rows-2 grid-cols-1 p-3">
                   <button
