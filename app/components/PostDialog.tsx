@@ -6,9 +6,16 @@ import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 
 import Button from './UI/Button';
 
+enum PostAudienceActions {
+  ANYONE,
+  FOLLOWERS
+}
+
 const PostDialog = () => {
   const editableRef = useRef<HTMLTextAreaElement | null>(null);
   const [thread, setThread] = useState('');
+  const [isPostAudienceOpen, setIsPostAudienceOpen] = useState(false);
+  const [postAudience, setPostAudience] = useState(PostAudienceActions.ANYONE);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -19,9 +26,17 @@ const PostDialog = () => {
     }
   }, [thread]);
 
+  const handleSelectPostAudience = (selectedAudience: PostAudienceActions) => {
+    setPostAudience(selectedAudience);
+    setIsPostAudienceOpen(false);
+  };
+
   return (
     <>
-      <div className="backdrop-blur-1 bg-black/60 absolute top-0 right-0 bottom-0 left-0" onClick={() => dispatch(closePostDialog())}></div>
+      <div
+        className="backdrop-blur-1 bg-black/60 absolute top-0 right-0 bottom-0 left-0"
+        onClick={() => dispatch(closePostDialog())}
+      ></div>
       <dialog
         open
         className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary rounded-3xl px-6 pt-6 pb-4"
@@ -60,12 +75,56 @@ const PostDialog = () => {
                     className="text-secondary cursor-pointer p-1 border border-primary hover:border-secondary rounded"
                   />
                 </label>
-                <input className="hidden" id="file" type="file" accept="image/*" />
+                <input
+                  className="hidden"
+                  id="file"
+                  type="file"
+                  accept="image/*"
+                />
               </div>
             </div>
           </div>
-          <footer className="flex justify-between">
-            <div></div>
+          <footer className="flex justify-between mt-12">
+            <div className="relative">
+              <p
+                className="text-secondary cursor-pointer"
+                onClick={() => setIsPostAudienceOpen((prev) => !prev)}
+              >
+                {postAudience === PostAudienceActions.ANYONE
+                  ? 'Anyone can reply & share'
+                  : 'Only followers can reply & share'}
+              </p>
+              <div
+                className={`shadow-lg opacity-0 absolute bg-primary text-secondary left-[-10px] w-[240px] border border-navigation-icon rounded-2xl max-h-[120px]
+                ${isPostAudienceOpen ? 'animate-slide-up' : ''}`}
+              >
+                <div className="w-full h-full grid grid-rows-2 grid-cols-1 p-3">
+                  <button
+                    type="button"
+                    className={`flex justify-between items-center py-4 px-2 text-left font-semibold hover:bg-navigation-icon-hover rounded-md transition-opacity duration-700 ease`}
+                    onClick={() =>
+                      handleSelectPostAudience(PostAudienceActions.ANYONE)
+                    }
+                  >
+                    Anyone
+                    <Icon
+                      icon="ic:baseline-greater-than"
+                      fontSize={16}
+                      className="text-primary"
+                    />
+                  </button>
+                  <button
+                    type="button"
+                    className={`flex justify-between items-center py-4 px-2 text-left font-semibold hover:bg-navigation-icon-hover rounded-md transition-opacity duration-700 ease`}
+                    onClick={() =>
+                      handleSelectPostAudience(PostAudienceActions.FOLLOWERS)
+                    }
+                  >
+                    Followers
+                  </button>
+                </div>
+              </div>
+            </div>
             <Button type="submit">Post</Button>
           </footer>
         </form>
