@@ -105,7 +105,7 @@ const PostDialog = () => {
       ></div>
       <dialog
         open
-        className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary rounded-3xl px-6 pt-6 pb-4 fixed z-50 -translate-y-1/2"
+        className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary rounded-3xl px-6 pt-6 pb-4 fixed z-50 top-1/2 -translate-y-3/4"
         ref={dialogRef}
       >
         <form className="flex flex-col h-auto" onSubmit={handleCreateNewPost}>
