@@ -70,7 +70,7 @@ const PostDialog = () => {
           },
           {
             opacity: '1',
-            transform: 'translateY(-50%) scale(1)'
+            transform: 'translateY(-75%) scale(1)'
           }
         ],
         animationOptions
