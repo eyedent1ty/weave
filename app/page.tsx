@@ -9,6 +9,7 @@ import Button from './components/UI/Button';
 
 const Home = () => {
   const isOpen = useAppSelector((state) => state.postDialog.isOpen);
+  const posts = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
 
   const handleOpenDialog = () => {
@@ -27,6 +28,9 @@ const Home = () => {
         </div>
         <Button onClick={handleOpenDialog}>Post</Button>
       </div>
+      {posts.map((post) => (
+        <p key={post.id}>{post.content}</p>
+      ))}
       {isOpen && <PostDialog />}
     </>
   );

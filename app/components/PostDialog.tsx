@@ -1,8 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
+import type { FormEvent } from 'react';
+
 import { Icon } from '@iconify/react';
 
 import { useAppDispatch } from '@/lib/hooks';
 import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
+import { addNewPost } from '@/lib/features/posts/postsSlice';
+
+import Post from '@/classes/Post';
 
 import Button from './UI/Button';
 
@@ -13,9 +18,12 @@ enum PostAudienceActions {
 
 const PostDialog = () => {
   const editableRef = useRef<HTMLTextAreaElement | null>(null);
-  const [thread, setThread] = useState('');
+
+  const [content, setContent] = useState('');
+
   const [isPostAudienceOpen, setIsPostAudienceOpen] = useState(false);
   const [postAudience, setPostAudience] = useState(PostAudienceActions.ANYONE);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,11 +32,19 @@ const PostDialog = () => {
       editableRef.current.style.height = 'auto';
       editableRef.current.style.height = `${editableRef.current.scrollHeight}px`;
     }
-  }, [thread]);
+  }, [content]);
 
   const handleSelectPostAudience = (selectedAudience: PostAudienceActions) => {
     setPostAudience(selectedAudience);
     setIsPostAudienceOpen(false);
+  };
+
+  const handleCreateNewPost = (e: FormEvent) => {
+    e.preventDefault();
+    const newPost = new Post(content, 'johndanieldel');
+
+    dispatch(addNewPost(newPost));
+    dispatch(closePostDialog());
   };
 
   return (
@@ -41,7 +57,7 @@ const PostDialog = () => {
         open
         className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary rounded-3xl px-6 pt-6 pb-4"
       >
-        <form className="flex flex-col h-auto">
+        <form className="flex flex-col h-auto" onSubmit={handleCreateNewPost}>
           <div className="flex gap-2">
             <div className="flex flex-col items-center gap-y-2">
               <Icon
@@ -61,8 +77,8 @@ const PostDialog = () => {
               <textarea
                 className="outline-none overflow-hidden resize-none h-5 ml-1 text-secondary bg-primary"
                 ref={editableRef}
-                value={thread}
-                onChange={(e) => setThread(e.target.value)}
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
                 placeholder="What's on your mind, John Daniel?"
                 rows={1}
               ></textarea>
