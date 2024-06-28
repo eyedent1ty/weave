@@ -3,7 +3,7 @@ import type { FormEvent } from 'react';
 
 import { Icon } from '@iconify/react';
 
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 import { addNewPost } from '@/lib/features/posts/postsSlice';
 
@@ -17,7 +17,11 @@ enum PostAudienceActions {
 }
 
 const PostDialog = () => {
-  const editableRef = useRef<HTMLTextAreaElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const backdropRef = useRef<HTMLDivElement | null>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+
+  const isOpen = useAppSelector((state) => state.postDialog.isOpen);
 
   const [content, setContent] = useState('');
 
@@ -27,12 +31,43 @@ const PostDialog = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (editableRef.current) {
+    if (textareaRef.current) {
       // Resizable textarea based on its content
-      editableRef.current.style.height = 'auto';
-      editableRef.current.style.height = `${editableRef.current.scrollHeight}px`;
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  }, [content]);
+
+    if (isOpen && backdropRef.current && dialogRef.current) {
+      const fadeIn = [{ opacity: '0' }, { opacity: '1' }];
+      const animationOptions = {
+        duration: 200
+      };
+
+      const backdropAnimation = backdropRef.current.animate(
+        fadeIn,
+        animationOptions
+      );
+
+      const dialogAnimation = dialogRef.current.animate(
+        [
+          {
+            opacity: '0',
+            transform: 'translateY(100px) scale(0.5)'
+          },
+          {
+            opacity: '1',
+            transform: 'translateY(0) scale(1)'
+          }
+        ],
+        animationOptions
+      );
+
+      return () =>
+        [backdropAnimation, dialogAnimation].forEach((animation) =>
+          animation.cancel()
+        );
+    }
+  }, [content, isOpen]);
 
   const handleSelectPostAudience = (selectedAudience: PostAudienceActions) => {
     setPostAudience(selectedAudience);
@@ -50,12 +85,14 @@ const PostDialog = () => {
   return (
     <>
       <div
-        className="backdrop-blur-1 bg-black/60 absolute top-0 right-0 bottom-0 left-0"
+        className={`"backdrop-blur-1 bg-black/60 absolute top-0 right-0 bottom-0 left-0`}
         onClick={() => dispatch(closePostDialog())}
+        ref={backdropRef}
       ></div>
       <dialog
         open
-        className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary rounded-3xl px-6 pt-6 pb-4"
+        className={`"max-w-[calc(100vw - 32px)] w-[620px] bg-primary rounded-3xl px-6 pt-6 pb-4`}
+        ref={dialogRef}
       >
         <form className="flex flex-col h-auto" onSubmit={handleCreateNewPost}>
           <div className="flex gap-2">
@@ -76,7 +113,7 @@ const PostDialog = () => {
               <p className="font-bold text-secondary ml-1">johndanieldel</p>
               <textarea
                 className="outline-none overflow-hidden resize-none h-5 ml-1 text-secondary bg-primary"
-                ref={editableRef}
+                ref={textareaRef}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="What's on your mind, John Daniel?"

@@ -24,12 +24,12 @@ const config: Config = {
         'slide-down': {
           '0%': { width: '240px', height: '240px', opacity: '1' },
           '100%': { width: '0px', height: '0px', opacity: '0' }
-        },
+        }
       },
       animation: {
         'slide-up': 'slide-up 300ms ease-out forwards',
         'slide-down': 'slide-down 300ms ease-out forwards',
-        'slide-next': 'slide-next 300ms ease-out forwards'
+        'slide-next': 'slide-next 300ms ease-out forwards',
       },
       colors: {
         primary: 'var(--color-primary)',
