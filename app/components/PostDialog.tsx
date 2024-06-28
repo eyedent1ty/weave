@@ -31,12 +31,26 @@ const PostDialog = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
     if (textareaRef.current) {
       // Resizable textarea based on its content
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
+  });
 
+  useEffect(() => {
     if (isOpen && backdropRef.current && dialogRef.current) {
       const fadeIn = [{ opacity: '0' }, { opacity: '1' }];
       const animationOptions = {
@@ -56,7 +70,7 @@ const PostDialog = () => {
           },
           {
             opacity: '1',
-            transform: 'translateY(0) scale(1)'
+            transform: 'translateY(-50%) scale(1)'
           }
         ],
         animationOptions
@@ -67,7 +81,7 @@ const PostDialog = () => {
           animation.cancel()
         );
     }
-  }, [content, isOpen]);
+  }, [isOpen]);
 
   const handleSelectPostAudience = (selectedAudience: PostAudienceActions) => {
     setPostAudience(selectedAudience);
@@ -85,13 +99,13 @@ const PostDialog = () => {
   return (
     <>
       <div
-        className={`"backdrop-blur-1 bg-black/60 absolute top-0 right-0 bottom-0 left-0`}
+        className="backdrop-blur-1 bg-black/60 absolute top-0 right-0 bottom-0 left-0 z-40"
         onClick={() => dispatch(closePostDialog())}
         ref={backdropRef}
       ></div>
       <dialog
         open
-        className={`"max-w-[calc(100vw - 32px)] w-[620px] bg-primary rounded-3xl px-6 pt-6 pb-4`}
+        className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary rounded-3xl px-6 pt-6 pb-4 fixed z-50 -translate-y-1/2"
         ref={dialogRef}
       >
         <form className="flex flex-col h-auto" onSubmit={handleCreateNewPost}>
@@ -148,10 +162,10 @@ const PostDialog = () => {
                   : 'Only followers can reply & share'}
               </p>
               <div
-                className={`shadow-lg opacity-0 -z-10 absolute bg-primary text-secondary left-[-10px] w-[240px] border border-navigation-icon rounded-2xl max-h-[120px]
+                className={`absolute -z-10 left-[-10px] shadow-lg opacity-0  bg-primary text-secondaryw-[240px] border border-navigation-icon rounded-2xl max-h-[120px]
                 ${isPostAudienceOpen ? 'animate-slide-up z-10' : ''}`}
               >
-                <div className="w-full h-full grid grid-rows-2 grid-cols-1 p-3">
+                <div className="absolute -z-10 w-full h-full grid grid-rows-2 grid-cols-1 p-3">
                   <button
                     type="button"
                     className={`flex justify-between items-center py-4 px-2 text-left font-semibold hover:bg-navigation-icon-hover rounded-md transition-opacity duration-700 ease`}
