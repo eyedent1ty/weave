@@ -6,10 +6,12 @@
   --color-primary: #ffffff;
   --color-secondary: #171717;
   --color-tertiary: #FAFAFA;
+  --border-color: #D5D5D5;
 }
 
 .dark {
   --color-primary: #171717;
   --color-secondary: #ffffff;
   --color-tertiary: #0A0A0A;
+  --border-color: #FFFFFF0D;
 }

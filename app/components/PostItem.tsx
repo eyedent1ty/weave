@@ -11,7 +11,7 @@ const PostItem: FC<PostItemProps> = ({ user, datePosted, content }) => {
   const liked = true;
 
   return (
-    <div>
+    <div className="px-6 py-3 border-b border-border-color">
       <article className="flex gap-2">
         <header>
           <Icon icon="carbon:user-avatar-filled" fontSize={36} />

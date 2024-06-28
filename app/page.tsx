@@ -20,7 +20,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="px-6 py-4 flex justify-between border-b-[1px] border-navigation-icon">
+      <div className="px-6 py-4 flex justify-between border-b border-border-color">
         <Icon icon="carbon:user-avatar-filled" fontSize={36} />
         <div
           className="flex items-center flex-grow ml-3 text-navigation-icon cursor-text font-light text-sm"
@@ -30,12 +30,22 @@ const Home = () => {
         </div>
         <Button onClick={handleOpenDialog}>Post</Button>
       </div>
-      <section className="px-6 py-4">
-        <PostItem user="johndanieldel" content="Remove 2 Apps" datePosted={new Date()} />
+      <section>
+        <PostItem
+          user="johndanieldel"
+          content="Remove 2 Apps"
+          datePosted={new Date()}
+        />
+        {posts.map((post) => (
+          <PostItem
+            key={post.id}
+            user={post.user}
+            content={post.content}
+            datePosted={post.datePosted}
+          />
+        ))}
       </section>
-      {posts.map((post) => (
-        <p key={post.id}>{post.content}</p>
-      ))}
+
       {isOpen && <PostDialog />}
     </>
   );

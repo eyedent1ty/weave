@@ -35,8 +35,9 @@ const config: Config = {
         primary: 'var(--color-primary)',
         secondary: 'var(--color-secondary)',
         tertiary: 'var(--color-tertiary)',
+        'border-color': 'var(--border-color)',
         'navigation-icon': '#B8B8B8',
-        'navigation-icon-hover': 'rgba(0, 0, 0, 0.04)'
+        'navigation-icon-hover': '#0000000a',
       }
     }
   },
