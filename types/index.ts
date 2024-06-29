@@ -5,4 +5,13 @@ interface Post {
   content: string;
 }
 
-export type { Post }
+interface User {
+  id: number;
+  username: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string;
+  followers: number;
+}
+
+export type { Post, User }
