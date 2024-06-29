@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useRef, useEffect } from 'react';
 import type { FormEvent } from 'react';
 
@@ -111,7 +113,8 @@ const PostDialog = () => {
   };
 
   return (
-    <>
+    isOpen ? (
+      <>
       <div
         className="backdrop-blur-1 bg-black/60 absolute top-0 right-0 bottom-0 left-0 z-40"
         onClick={() => dispatch(closePostDialog())}
@@ -211,6 +214,7 @@ const PostDialog = () => {
         </form>
       </dialog>
     </>
+    ) : null
   );
 };
 

@@ -6,6 +6,7 @@ import StoreProvider from './StoreProvider';
 
 import Nav from './components/Nav';
 import FloatingButton from './components/UI/FloatingButton';
+import PostDialog from './components/PostDialog';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
             </main>
           </div>
           <FloatingButton />
+          <PostDialog />
         </body>
       </html>
     </StoreProvider>

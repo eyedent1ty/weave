@@ -45,8 +45,6 @@ const Home = () => {
           />
         ))}
       </section>
-
-      {isOpen && <PostDialog />}
     </>
   );
 };
