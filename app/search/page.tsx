@@ -2,9 +2,12 @@
 
 import { useState } from 'react';
 import type { FC } from 'react';
+import type { UserInterface } from '@/types';
+
+import { useAppSelector } from '@/lib/hooks';
 
 import Searchbar from '../components/search/Searchbar';
-import SearchItem from '../components/search/SearchItem';
+import SearchList from '../components/search/SearchList';
 
 const SearchPage: FC = () => {
   const [query, setQuery] = useState('');
@@ -17,14 +20,24 @@ const SearchPage: FC = () => {
     setQuery('');
   };
 
+  const users = useAppSelector((state) => state.users);
+
+  const filteredUsers = users.filter((user) =>
+    `${user.firstName} ${user.lastName}`
+      .toLowerCase()
+      .includes(query.toLowerCase())
+  );
+  
   return (
     <main className="py-4">
       <div className="mx-5">
-        <Searchbar query={query} onChangeQuery={handleChangeQuery} onResetQuery={handleResetQuery} />
+        <Searchbar
+          query={query}
+          onChangeQuery={handleChangeQuery}
+          onResetQuery={handleResetQuery}
+        />
       </div>
-      <ul className="mt-10">
-        <SearchItem id={1} username="" firstName="" lastName="" followers={123} imageUrl="123123" />
-      </ul>
+      <SearchList users={filteredUsers} />
     </main>
   );
 };
