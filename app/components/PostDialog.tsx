@@ -143,7 +143,7 @@ const PostDialog = () => {
             <div className="flex flex-1 flex-col mt-2">
               <p className="font-bold text-secondary ml-1">johndanieldel</p>
               <textarea
-                className="outline-none resize-none h-5 ml-1 text-secondary bg-primary max-h-44"
+                className="outline-none resize-none min-h-6 ml-1 text-secondary bg-primary max-h-44"
                 ref={textareaRef}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
