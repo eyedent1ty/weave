@@ -31,6 +31,20 @@ const PostDialog = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.code === 'Escape') {
+        dispatch(closePostDialog());
+      }
+    };
+
+    document.documentElement.addEventListener('keydown', handleKeydown);
+
+    return () => {
+      document.documentElement.removeEventListener('keydown', handleKeydown);
+    };
+  }, []);
+
+  useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -39,7 +53,7 @@ const PostDialog = () => {
 
     return () => {
       document.body.style.overflow = 'auto';
-    }
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -48,7 +62,7 @@ const PostDialog = () => {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  });
+  }, [content]);
 
   useEffect(() => {
     if (isOpen && backdropRef.current && dialogRef.current) {
@@ -126,7 +140,7 @@ const PostDialog = () => {
             <div className="flex flex-1 flex-col mt-2">
               <p className="font-bold text-secondary ml-1">johndanieldel</p>
               <textarea
-                className="outline-none overflow-hidden resize-none h-5 ml-1 text-secondary bg-primary"
+                className="outline-none resize-none h-5 ml-1 text-secondary bg-primary max-h-44"
                 ref={textareaRef}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
