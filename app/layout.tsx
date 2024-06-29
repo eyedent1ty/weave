@@ -5,6 +5,7 @@ import './globals.css';
 import StoreProvider from './StoreProvider';
 
 import Nav from './components/Nav';
+import Button from './components/UI/Button';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,13 +22,14 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={`${inter.className} relative`}>
           <div className="relative flex justify-center bg-tertiary text-secondary">
             <Nav />
             <main className="sm:mx-[76px] sm:max-w-[600px] pt-2 w-screen h-screen sm:rounded-t-3xl sm:border border-border-color bg-primary text-secondary mt-14 shadow-md">
               {children}
             </main>
           </div>
+          <Button className="fixed right-8 bottom-8 bg-primary border border-color text-secondary text-4xl w-20 h-16 shadow-lg rounded-2xl transition-transform duration-300 hover:scale-110 active:scale-100">+</Button>
         </body>
       </html>
     </StoreProvider>
