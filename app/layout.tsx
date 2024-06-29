@@ -5,7 +5,7 @@ import './globals.css';
 import StoreProvider from './StoreProvider';
 
 import Nav from './components/Nav';
-import Button from './components/UI/Button';
+import FloatingButton from './components/UI/FloatingButton';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,7 +29,7 @@ export default function RootLayout({
               {children}
             </main>
           </div>
-          <Button className="fixed right-8 bottom-8 bg-primary border border-color text-secondary text-4xl w-20 h-16 shadow-lg rounded-2xl transition-transform duration-300 hover:scale-110 active:scale-100">+</Button>
+          <FloatingButton />
         </body>
       </html>
     </StoreProvider>
