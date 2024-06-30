@@ -6,11 +6,10 @@ import type { FormEvent } from 'react';
 import { Icon } from '@iconify/react';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 import { addNewPost } from '@/lib/features/posts/postsSlice';
+import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 
 import Post from '@/classes/Post';
-import Backdrop from './UI/Backdrop';
 
 import Button from './UI/Button';
 
