@@ -1,7 +1,6 @@
-import User from '@/classes/User';
-
 const DUMMY_USERS = [
   {
+    id: 1,
     username: 'annecurtissmith',
     firstName: 'Ann',
     lastName: 'Curtis',
@@ -10,6 +9,7 @@ const DUMMY_USERS = [
     followers: 958000
   },
   {
+    id: 2,
     username: 'johnsmith',
     firstName: 'John',
     lastName: 'Smith',
@@ -17,6 +17,7 @@ const DUMMY_USERS = [
     followers: 5000
   },
   {
+    id: 3,
     username: 'janedoe',
     firstName: 'Jane',
     lastName: 'Doe',
@@ -24,6 +25,7 @@ const DUMMY_USERS = [
     followers: 12000
   },
   {
+    id: 4,
     username: 'peterparker',
     firstName: 'Peter',
     lastName: 'Parker',
@@ -31,6 +33,7 @@ const DUMMY_USERS = [
     followers: 10000
   },
   {
+    id: 5,
     username: 'maryjane',
     firstName: 'Mary',
     lastName: 'Jane',
@@ -38,6 +41,7 @@ const DUMMY_USERS = [
     followers: 15000
   },
   {
+    id: 6,
     username: 'tonystark',
     firstName: 'Tony',
     lastName: 'Stark',
@@ -45,6 +49,7 @@ const DUMMY_USERS = [
     followers: 25000
   },
   {
+    id: 7,
     username: 'brucewayne',
     firstName: 'Bruce',
     lastName: 'Wayne',
@@ -52,6 +57,7 @@ const DUMMY_USERS = [
     followers: 20000
   },
   {
+    id: 8,
     username: 'dianaprince',
     firstName: 'Diana',
     lastName: 'Prince',
@@ -59,6 +65,7 @@ const DUMMY_USERS = [
     followers: 18000
   },
   {
+    id: 9,
     username: 'clarkkent',
     firstName: 'Clark',
     lastName: 'Kent',
@@ -66,6 +73,7 @@ const DUMMY_USERS = [
     followers: 22000
   },
   {
+    id: 10,
     username: 'barryallen',
     firstName: 'Barry',
     lastName: 'Allen',
