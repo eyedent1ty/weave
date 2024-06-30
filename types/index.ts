@@ -5,7 +5,7 @@ interface Post {
   content: string;
 }
 
-interface UserInterface {
+interface User {
   id: number;
   username: string;
   firstName: string;
@@ -14,4 +14,4 @@ interface UserInterface {
   followers: number;
 }
 
-export type { Post, UserInterface }
+export type { Post, User }

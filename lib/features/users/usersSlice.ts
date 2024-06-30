@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import User from '@/classes/User';
 
@@ -9,7 +9,11 @@ const initialState: User[] = DUMMY_USERS;
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {}
+  reducers: {
+    getUserById(state, action: PayloadAction<number>) {
+      console.log('Hello WOrld')
+    }
+  }
 });
 
 export default usersSlice.reducer;

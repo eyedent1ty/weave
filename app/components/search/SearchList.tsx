@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 
-import type { UserInterface } from '@/types';
+import type { User } from '@/types';
 
 import SearchItem from './SearchItem';
 
 interface SearchListProps {
-  users: UserInterface[];
+  users: User[];
 }
 
 const SearchList: FC<SearchListProps> = ({ users }) => {

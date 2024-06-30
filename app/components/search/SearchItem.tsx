@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 
-import type { UserInterface } from '@/types';
+import type { User } from '@/types';
 
 import Button from '../UI/Button';
 
 import { formatNumber } from '@/utils';
 
-interface SearchItemProps extends UserInterface {}
+interface SearchItemProps extends User {}
 
 const SearchItem: FC<SearchItemProps> = ({
   username,
