@@ -1,6 +1,6 @@
 interface Post {
   id: number;
-  user: string;
+  username: string;
   datePosted: Date;
   content: string;
 }

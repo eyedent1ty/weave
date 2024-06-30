@@ -1,13 +1,9 @@
 import type { FC } from 'react';
 import { Icon } from '@iconify/react';
 
-interface PostItemProps {
-  user: string;
-  datePosted: Date;
-  content: string;
-}
+import type { Post } from '@/types/index';
 
-const PostItem: FC<PostItemProps> = ({ user, datePosted, content }) => {
+const PostItem: FC<Post> = ({ username, datePosted, content }) => {
   const liked = true;
 
   return (
@@ -17,7 +13,7 @@ const PostItem: FC<PostItemProps> = ({ user, datePosted, content }) => {
           <Icon icon="carbon:user-avatar-filled" fontSize={36} />
         </header>
         <main className="flex flex-1 flex-col">
-          <p className="text-secondary font-semibold">{user}</p>
+          <p className="text-secondary font-semibold">{username}</p>
           <p>{content}</p>
         </main>
       </article>

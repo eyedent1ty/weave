@@ -31,18 +31,8 @@ const Home = () => {
         <Button onClick={handleOpenDialog}>Post</Button>
       </div>
       <section>
-        <PostItem
-          user="johndanieldel"
-          content="Remove 2 Apps"
-          datePosted={new Date()}
-        />
         {posts.map((post) => (
-          <PostItem
-            key={post.id}
-            user={post.user}
-            content={post.content}
-            datePosted={post.datePosted}
-          />
+          <PostItem key={post.id} {...post} />
         ))}
       </section>
     </>
