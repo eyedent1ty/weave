@@ -29,7 +29,7 @@ const SearchPage: FC = () => {
   );
   
   return (
-    <main className="py-4">
+    <main className="py-4 flex flex-col h-full">
       <div className="mx-5">
         <Searchbar
           query={query}
@@ -37,7 +37,7 @@ const SearchPage: FC = () => {
           onResetQuery={handleResetQuery}
         />
       </div>
-      <SearchList users={filteredUsers} />
+        {filteredUsers.length ? <SearchList users={filteredUsers} /> : <div className="flex-1 flex justify-center items-center text-secondary"><h2>No Results</h2></div>}
     </main>
   );
 };
