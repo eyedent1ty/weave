@@ -1,7 +1,7 @@
 interface Post {
   id: number;
   username: string;
-  datePosted: Date;
+  datePosted: string;
   content: string;
 }
 

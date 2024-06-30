@@ -29,6 +29,15 @@ const PostItem: FC<Post> = ({ username, datePosted, content }) => {
           />
           <span className="text-sm">17</span>
         </div>
+        <div
+          className="flex items-center gap-1 px-3 py-2 rounded-2xl cursor-pointer hover:bg-navigation-icon-hover"
+        >
+          <Icon
+            icon="tabler:message-circle"
+            fontSize={22}
+          />
+          <span className="text-sm">17</span>
+        </div>
       </footer>
     </div>
   );

@@ -5,12 +5,10 @@ import { Icon } from '@iconify/react';
 import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 import { openPostDialog } from '@/lib/features/postDialog/postDialogSlice';
 
-import PostDialog from './components/PostDialog';
 import Button from './components/UI/Button';
 import PostItem from './components/PostItem';
 
 const Home = () => {
-  const isOpen = useAppSelector((state) => state.postDialog.isOpen);
   const posts = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
 

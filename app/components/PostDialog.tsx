@@ -10,6 +10,7 @@ import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 import { addNewPost } from '@/lib/features/posts/postsSlice';
 
 import Post from '@/classes/Post';
+import Backdrop from './UI/Backdrop';
 
 import Button from './UI/Button';
 
@@ -20,7 +21,6 @@ enum PostAudienceActions {
 
 const PostDialog = () => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const backdropRef = useRef<HTMLDivElement | null>(null);
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   const isOpen = useAppSelector((state) => state.postDialog.isOpen);
@@ -47,18 +47,6 @@ const PostDialog = () => {
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
     if (textareaRef.current) {
       // Resizable textarea based on its content
       textareaRef.current.style.height = 'auto';
@@ -67,16 +55,10 @@ const PostDialog = () => {
   }, [content]);
 
   useEffect(() => {
-    if (isOpen && backdropRef.current && dialogRef.current) {
-      const fadeIn = [{ opacity: '0' }, { opacity: '1' }];
+    if (isOpen && dialogRef.current) {
       const animationOptions = {
         duration: 200
       };
-
-      const backdropAnimation = backdropRef.current.animate(
-        fadeIn,
-        animationOptions
-      );
 
       const dialogAnimation = dialogRef.current.animate(
         [
@@ -92,10 +74,9 @@ const PostDialog = () => {
         animationOptions
       );
 
-      return () =>
-        [backdropAnimation, dialogAnimation].forEach((animation) =>
-          animation.cancel()
-        );
+      return () => {
+        dialogAnimation.cancel();
+      }
     }
   }, [isOpen]);
 
@@ -106,7 +87,9 @@ const PostDialog = () => {
 
   const handleCreateNewPost = (e: FormEvent) => {
     e.preventDefault();
-    const newPost = new Post(content, 'johndanieldel');
+    const instance = new Post(content, 'johndanieldel');
+
+    const newPost = { ...instance };
 
     dispatch(addNewPost(newPost));
     dispatch(closePostDialog());
@@ -115,11 +98,6 @@ const PostDialog = () => {
   return (
     isOpen ? (
       <>
-      <div
-        className="backdrop-blur-1 bg-black/60 absolute top-0 right-0 bottom-0 left-0 z-40"
-        onClick={() => dispatch(closePostDialog())}
-        ref={backdropRef}
-      ></div>
       <dialog
         open
         className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary text-secondary border border-border-color rounded-3xl px-6 pt-6 pb-4 fixed z-50 top-1/2 -translate-y-3/4"
