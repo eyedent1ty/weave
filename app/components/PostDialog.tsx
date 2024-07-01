@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import type { FormEvent } from 'react';
@@ -23,13 +23,15 @@ const PostDialog = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   const isOpen = useAppSelector((state) => state.postDialog.isOpen);
+  const currentUser = useAppSelector((state) => state.currentUser);
+  const dispatch = useAppDispatch();
+
+  const { username, imageUrl, firstName, lastName } = currentUser;
 
   const [content, setContent] = useState('');
 
   const [isPostAudienceOpen, setIsPostAudienceOpen] = useState(false);
   const [postAudience, setPostAudience] = useState(PostAudienceActions.ANYONE);
-
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
@@ -75,7 +77,7 @@ const PostDialog = () => {
 
       return () => {
         dialogAnimation.cancel();
-      }
+      };
     }
   }, [isOpen]);
 
@@ -86,7 +88,7 @@ const PostDialog = () => {
 
   const handleCreateNewPost = (e: FormEvent) => {
     e.preventDefault();
-    const instance = new Post(content, 'johndanieldel');
+    const instance = new Post(content, username);
 
     const newPost = { ...instance };
 
@@ -94,9 +96,8 @@ const PostDialog = () => {
     dispatch(closePostDialog());
   };
 
-  return (
-    isOpen ? (
-      <>
+  return isOpen ? (
+    <>
       <dialog
         open
         className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary text-secondary border border-border-color rounded-3xl px-6 pt-6 pb-4 fixed z-50 top-1/2 -translate-y-3/4"
@@ -105,26 +106,31 @@ const PostDialog = () => {
         <form className="flex flex-col h-auto" onSubmit={handleCreateNewPost}>
           <div className="flex gap-2">
             <div className="flex flex-col items-center gap-y-2">
-              <Icon
-                className="mt-2"
-                icon="carbon:user-avatar-filled"
-                fontSize={36}
+              <img
+                src={imageUrl}
+                height="36"
+                width="36"
+                alt={`${username} profile picture`}
+                className="rounded-full mt-2"
               />
               <div className="border-l-2 border-border-color min-h-8 flex-1"></div>
-              <Icon
-                className="mt-2"
-                icon="carbon:user-avatar-filled"
-                fontSize={20}
+
+              <img
+                src={imageUrl}
+                height="20"
+                width="20"
+                alt={`${username} profile picture`}
+                className="rounded-full"
               />
             </div>
             <div className="flex flex-1 flex-col mt-2">
-              <p className="font-bold text-secondary ml-1">johndanieldel</p>
+              <p className="font-bold text-secondary ml-1">{username}</p>
               <textarea
                 className="outline-none resize-none min-h-6 ml-1 text-secondary bg-primary max-h-44"
                 ref={textareaRef}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="What's on your mind, John Daniel?"
+                placeholder={`What's on your mind, ${firstName} ${lastName}?`}
                 rows={1}
               ></textarea>
 
@@ -191,8 +197,7 @@ const PostDialog = () => {
         </form>
       </dialog>
     </>
-    ) : null
-  );
+  ) : null;
 };
 
 export default PostDialog;

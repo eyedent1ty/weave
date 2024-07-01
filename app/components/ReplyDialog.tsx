@@ -16,6 +16,9 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const isOpen = useAppSelector((state) => state.replyDialog.isOpen);
   const currentPost = useAppSelector((state) => state.replyDialog.currentPost);
+  const currentUser = useAppSelector((state) => state.currentUser);
+
+  const { imageUrl, username } = currentUser;
 
   useEffect(() => {
     if (textareaRef.current && content.trim().length <= 500) {
@@ -55,13 +58,22 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
 
       <div className="flex w-full gap-2">
         <div className="flex flex-col items-center gap-y-1">
-          <Icon
-            className="mt-1"
-            icon="carbon:user-avatar-filled"
-            fontSize={36}
+          <img
+            src={imageUrl}
+            height="36"
+            width="36"
+            alt={`${username} profile picture`}
+            className="rounded-full"
           />
           <div className="border-l-2 border-border-color min-h-8 flex-1"></div>
-          <Icon icon="carbon:user-avatar-filled" fontSize={20} />
+
+          <img
+            src={imageUrl}
+            height="20"
+            width="20"
+            alt={`${username} profile picture`}
+            className="rounded-full"
+          />
         </div>
         <div className="flex flex-1 flex-col mt-2">
           <p className="font-bold text-secondary ml-1">johndanieldel</p>

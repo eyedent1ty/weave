@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import type { FC } from 'react';
-import type { User } from '@/types';
 
 import { useAppSelector } from '@/lib/hooks';
 

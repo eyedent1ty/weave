@@ -5,6 +5,7 @@ import postsSlice from './features/posts/postsSlice';
 import usersSlice from './features/users/usersSlice';
 import backdropSlice from './features/backdrop/backdropSlice';
 import replyDialogSlice from './features/replyDialog/replyDialogSlice';
+import currentUserSlice from './features/currentUser/currentUserSlice';
 
 export const makeStore = () => {
   return configureStore({
@@ -13,7 +14,8 @@ export const makeStore = () => {
       posts: postsSlice,
       users: usersSlice,
       backdrop: backdropSlice,
-      replyDialog: replyDialogSlice
+      replyDialog: replyDialogSlice,
+      currentUser: currentUserSlice
     }
   });
 };
