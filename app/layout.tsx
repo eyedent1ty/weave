@@ -8,6 +8,7 @@ import Nav from './components/Nav';
 import FloatingButton from './components/UI/FloatingButton';
 import PostDialog from './components/PostDialog';
 import Backdrop from './components/UI/Backdrop';
+import ReplyDialog from './components/ReplyDialog';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({
           <FloatingButton />
           <PostDialog />
           <Backdrop />
+          <ReplyDialog open={true} />
         </body>
       </html>
     </StoreProvider>
