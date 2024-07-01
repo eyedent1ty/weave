@@ -1,15 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
+import DUMMY_POSTS from './dummy_posts';
 import { Post } from '@/types';
 
-const initialState: Post[] = [
-  {
-    id: 1,
-    username: 'johndanieldel',
-    datePosted: 'June 2024',
-    content: 'Deleted 2 apps'
-  }
-];
+const initialState: Post[] = DUMMY_POSTS
 
 const postsSlice = createSlice({
   name: 'posts',

@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import { Icon } from '@iconify/react';
 import Dialog from './UI/Dialog';
 import Button from './UI/Button';
+import { useAppSelector } from '@/lib/hooks';
 
 interface ReplyDialogInterface {
   open: boolean;
@@ -13,6 +14,7 @@ interface ReplyDialogInterface {
 const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
   const [content, setContent] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const isOpen = useAppSelector((state) => state.replyDialog.isOpen);
 
   useEffect(() => {
     if (textareaRef.current && content.trim().length <= 500) {
@@ -34,12 +36,11 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
           />
           <div className="border-l-2 border-border-color min-h-8 flex-1"></div>
         </div>
-        
+
         <div className="flex flex-1 flex-col mt-2 ml-1 pr-6">
           <p className="font-bold text-secondary">johndanieldel</p>
           <p>guyssss pag ba nag thread ako nakikita din ba sa fb?</p>
         </div>
-
       </div>
 
       <div className="flex w-full gap-2">
@@ -76,11 +77,13 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
   );
 
   return (
-    <Dialog
-      open={open}
-      mainContent={mainContent}
-      footerContent={footerContent}
-    />
+    isOpen && (
+      <Dialog
+        open={open}
+        mainContent={mainContent}
+        footerContent={footerContent}
+      />
+    )
   );
 };
 

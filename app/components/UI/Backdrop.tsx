@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
+import { closeReplyDialog } from '@/lib/features/replyDialog/replyDialogSlice';
 
 const Backdrop: FC = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ const Backdrop: FC = () => {
       if (e.code === 'Escape') {
         dispatch(closeBackdrop());
         dispatch(closePostDialog());
+        dispatch(closeReplyDialog());
       }
     };
 
@@ -62,6 +64,7 @@ const Backdrop: FC = () => {
   const handleClick = () => {
     dispatch(closeBackdrop())
     dispatch(closePostDialog());
+    dispatch(closeReplyDialog());
   };
 
   return (

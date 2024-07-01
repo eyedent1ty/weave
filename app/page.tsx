@@ -30,7 +30,7 @@ const Home = () => {
       </div>
       <section>
         {posts.map((post) => (
-          <PostItem key={post.id} {...post} />
+          <PostItem key={post.id} post={post} />
         ))}
       </section>
     </>

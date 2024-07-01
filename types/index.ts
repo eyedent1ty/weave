@@ -2,7 +2,9 @@ interface Post {
   id: number;
   username: string;
   datePosted: string;
-  content: string;
+  content: string; 
+  imagePostUrl: string | null;
+  userImageUrl: string;
 }
 
 interface User {
