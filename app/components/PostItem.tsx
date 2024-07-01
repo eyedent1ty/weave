@@ -20,9 +20,9 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
   const dispatch = useAppDispatch();
 
   const handleClickReply = () => {
+    dispatch(setCurrentPost(post));
     dispatch(openBackdrop());
     dispatch(openReplyDialog());
-    dispatch(setCurrentPost(post));
   };
 
   return (
