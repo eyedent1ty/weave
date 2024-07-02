@@ -1,23 +1,31 @@
+import type { FC } from 'react';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 
-const NavigationIcon = ({
+interface NavigationIconProps {
+  id: number;
+  icon: string;
+  href?: string;
+  className?: string;
+  active?: boolean;
+  activeIcon?: string;
+  onClick?: () => void;
+}
+
+const NavigationIcon: FC<NavigationIconProps> = ({
   icon,
   href,
   className = '',
   active = false,
-  activeIcon
-}: {
-  icon: string;
-  href: string;
-  className?: string;
-  active?: boolean;
-  activeIcon?: string;
+  activeIcon,
+  onClick
 }) => {
-  return (
+  return href ? (
     <Link
       href={href}
-      className={`h-full w-full flex items-center justify-center rounded-lg ${active ? 'bg-navigation-icon-hover dark:bg-primary' : ''} hover:bg-navigation-icon-hover dark:hover:bg-primary transition-background-color ease duration-300 ${className}`}
+      className={`h-full w-full flex items-center justify-center rounded-lg ${
+        active ? 'bg-navigation-icon-hover dark:bg-primary' : ''
+      } hover:bg-navigation-icon-hover dark:hover:bg-primary transition-background-color ease duration-300 ${className}`}
     >
       <Icon
         icon={(active ? activeIcon : icon) || icon}
@@ -27,6 +35,10 @@ const NavigationIcon = ({
         }`}
       />
     </Link>
+  ) : (
+    <button className={`h-full w-full flex items-center justify-center rounded-lg hover:bg-navigation-icon-hover dark:hover:bg-primary transition-background-color ease duration-300 ${className}`} type="button" onClick={onClick}>
+      <Icon icon={icon} fontSize={24} className="text-navigation-icon" />
+    </button>
   );
 };
 

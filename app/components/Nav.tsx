@@ -1,9 +1,14 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import type { FC } from 'react';
 import { Icon } from '@iconify/react';
 
-import Link from 'next/link';
+import { useAppDispatch } from '@/lib/hooks';
+import { openBackdrop } from '@/lib/features/backdrop/backdropSlice';
+import { openPostDialog } from '@/lib/features/postDialog/postDialogSlice';
+
 import NavigationIcon from './NavigationIcon';
 import MenuDialog from './MenuDialog';
 import useMenuDialog from '../../hooks/useMenuDialog';
@@ -14,26 +19,41 @@ interface NavigationDetail {
   activeIcon?: string;
 }
 
-const Nav = () => {
+
+
+const Nav: FC = () => {
   const pathname = usePathname();
   const menuDialog = useMenuDialog();
+  const dispatch = useAppDispatch();
 
-  const navitationDetails: NavigationDetail[] = [
+  const navitationDetails = [
     {
+      id: 1,
       href: '/',
       icon: 'clarity:house-line',
       activeIcon: 'clarity:house-solid'
     },
     {
+      id: 2,
       href: '/search',
       icon: 'clarity:search-line'
     },
     {
+      id: 3,
+      icon: 'clarity:add-line',
+      onClick: () => {
+        dispatch(openBackdrop());
+        dispatch(openPostDialog());
+      }
+    },
+    {
+      id: 4,
       href: '/activity',
       icon: 'clarity:heart-line',
       activeIcon: 'clarity:heart-solid'
     },
     {
+      id: 5,
       href: '/profile',
       icon: 'clarity:user-line',
       activeIcon: 'clarity:user-solid'
@@ -43,13 +63,17 @@ const Nav = () => {
   return (
     <nav className="fixed bottom-0 w-screen flex bg-inherit text-secondary sm:left-0 sm:h-screen sm:w-[76px] sm:flex sm:flex-col sm:justify-between sm:items-center">
       <Link href="/" className="hidden sm:block py-4">
-        <Icon icon="icon-park-solid:three-triangles" fontSize={34} className="text-secondary" />
+        <Icon
+          icon="icon-park-solid:three-triangles"
+          fontSize={34}
+          className="text-secondary"
+        />
       </Link>
-      <ul className="w-full grid grid-cols-4 sm:w-auto sm:block sm:space-y-1">
+      <ul className="w-full grid grid-cols-5 sm:w-auto sm:block sm:space-y-1">
         {navitationDetails.map((navigationDetail) => (
           <li
-            key={navigationDetail.href}
-            className="h-[64px] sm:w-[60px] sm:h-[60px]"
+            key={navigationDetail.id}
+            className={`h-[64px] sm:w-[60px] sm:h-[60px] ${!navigationDetail.href ? 'sm:hidden' : ''}`}
           >
             <NavigationIcon
               {...navigationDetail}

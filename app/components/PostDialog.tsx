@@ -12,6 +12,7 @@ import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 import Post from '@/classes/Post';
 
 import Button from './UI/Button';
+import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 
 enum PostAudienceActions {
   ANYONE,
@@ -19,6 +20,11 @@ enum PostAudienceActions {
 }
 
 const PostDialog = () => {
+  const [content, setContent] = useState('');
+  const [isPostAudienceOpen, setIsPostAudienceOpen] = useState(false);
+  const [postAudience, setPostAudience] = useState(PostAudienceActions.ANYONE);
+  const [width, setWidth] = useState(window.innerWidth);
+
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
@@ -28,11 +34,20 @@ const PostDialog = () => {
 
   const { username, imageUrl, firstName, lastName } = currentUser;
 
-  const [content, setContent] = useState('');
+  // Resizing the width of the window
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
 
-  const [isPostAudienceOpen, setIsPostAudienceOpen] = useState(false);
-  const [postAudience, setPostAudience] = useState(PostAudienceActions.ANYONE);
+    window.addEventListener('resize', handleResize);
 
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Keydown event (Escape)
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.code === 'Escape') {
@@ -47,22 +62,34 @@ const PostDialog = () => {
     };
   }, []);
 
+  // Resizable textarea based on its content
   useEffect(() => {
     if (textareaRef.current) {
-      // Resizable textarea based on its content
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [content]);
 
+  // Mount animation
   useEffect(() => {
     if (isOpen && dialogRef.current) {
       const animationOptions = {
-        duration: 200
+        duration: 300
       };
 
-      const dialogAnimation = dialogRef.current.animate(
-        [
+      let keyframe = [
+        {
+          opacity: '0',
+          transform: 'translateY(200%)'
+        },
+        {
+          opacity: '1',
+          transform: 'translateY(0)'
+        }
+      ];
+
+      if (width >= 700) {
+        keyframe = [
           {
             opacity: '0',
             transform: 'translateY(100px) scale(0.5)'
@@ -71,7 +98,11 @@ const PostDialog = () => {
             opacity: '1',
             transform: 'translateY(-75%) scale(1)'
           }
-        ],
+        ];
+      }
+
+      const dialogAnimation = dialogRef.current.animate(
+        keyframe,
         animationOptions
       );
 
@@ -100,10 +131,22 @@ const PostDialog = () => {
     <>
       <dialog
         open
-        className="max-w-[calc(100vw - 32px)] w-[620px] bg-primary text-secondary border border-border-color rounded-3xl px-6 pt-6 pb-4 fixed z-50 top-1/2 -translate-y-3/4"
+        className="fixed max-sm:h-screen max-sm:w-screen max-sm:top-0 max-sm:left-0 max-sm:bottom-0 max-sm:right-0 z-50 bg-primary text-secondary border border-border-color px-6 pt-6 pb-4 sm:rounded-3xl sm:top-1/2 sm:-translate-y-3/4 sm:max-w-[calc(100vw - 32px)] sm:w-[620px]"
         ref={dialogRef}
       >
-        <form className="flex flex-col h-auto" onSubmit={handleCreateNewPost}>
+        <button
+          className="cursor-pointer pb-6 sm:hidden"
+          onClick={() => {
+            dispatch(closeBackdrop());
+            dispatch(closePostDialog());
+          }}
+        >
+          Cancel
+        </button>
+        <form
+          className="relative flex flex-col h-full justify-between sm:h-auto"
+          onSubmit={handleCreateNewPost}
+        >
           <div className="flex gap-2">
             <div className="flex flex-col items-center gap-y-2">
               <img
@@ -131,7 +174,7 @@ const PostDialog = () => {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder={`What's on your mind, ${firstName} ${lastName}?`}
-                rows={1}
+                rows={width >= 700 ? 1 : 2}
               ></textarea>
 
               <div className="w-8 mt-1">
@@ -151,7 +194,7 @@ const PostDialog = () => {
               </div>
             </div>
           </div>
-          <footer className="flex justify-between mt-12">
+          <footer className="max-sm:fixed bottom-0 right-0 left-0 w-full max-sm:p-6 flex justify-between items-center mt-12">
             <div className="relative">
               <p
                 className="text-secondary cursor-pointer"
