@@ -1,25 +1,27 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import type { FormEvent, FC } from 'react';
+import type { FC } from 'react';
 
 import { Icon } from '@iconify/react';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { addNewPost } from '@/lib/features/posts/postsSlice';
 import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 
-import Post from '@/classes/Post';
+import type { Post } from '@/types';
 
 import Dialog from './UI/Dialog';
 import Button from './UI/Button';
 import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import useScreenWidth from '@/hooks/useScreenWidth';
+import { addNewPost } from '@/lib/features/posts/postsSlice';
 
 enum PostAudienceActions {
   ANYONE,
   FOLLOWERS
 }
+
+let id = 11;
 
 const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
   const [content, setContent] = useState('');
@@ -48,13 +50,18 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
     setIsPostAudienceOpen(false);
   };
 
-  const handleCreateNewPost = (e: FormEvent) => {
-    e.preventDefault();
-    const instance = new Post(content, username);
-
-    const newPost = { ...instance };
+  const handleCreateNewPost = () => {
+    const newPost: Post = {
+      id: id++,
+      username: currentUser.username,
+      datePosted: new Date().toString(),
+      content: content,
+      imagePostUrl: null,
+      userImageUrl: currentUser.imageUrl
+    };
 
     dispatch(addNewPost(newPost));
+    dispatch(closeBackdrop());
     dispatch(closePostDialog());
   };
 
@@ -71,10 +78,7 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
   );
 
   const mainContent = (
-    <form
-      className="relative flex flex-col h-full justify-between sm:h-auto pr-6"
-      onSubmit={handleCreateNewPost}
-    >
+    <form className="relative flex flex-col h-full justify-between sm:h-auto pr-6">
       <div className="flex gap-2">
         <div className="flex flex-col items-center gap-y-2">
           <img
@@ -122,49 +126,51 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
 
   const footerContent = (
     <>
-    <div className="flex justify-between items-end pt-6 pr-6">
-    <div className="relative">
-        <p
-          className="text-secondary cursor-pointer"
-          onClick={() => setIsPostAudienceOpen((prev) => !prev)}
-        >
-          {postAudience === PostAudienceActions.ANYONE
-            ? 'Anyone can reply & share'
-            : 'Only followers can reply & share'}
-        </p>
-        <div
-          className={`absolute -z-10 left-[-10px] shadow-lg opacity-0  bg-primary text-secondaryw-[240px] border border-border-color rounded-2xl max-h-[120px]
+      <div className="flex justify-between items-end pt-6 pr-6">
+        <div className="relative">
+          <p
+            className="text-secondary cursor-pointer"
+            onClick={() => setIsPostAudienceOpen((prev) => !prev)}
+          >
+            {postAudience === PostAudienceActions.ANYONE
+              ? 'Anyone can reply & share'
+              : 'Only followers can reply & share'}
+          </p>
+          <div
+            className={`absolute -z-10 left-[-10px] shadow-lg opacity-0  bg-primary text-secondaryw-[240px] border border-border-color rounded-2xl max-h-[120px]
         ${isPostAudienceOpen ? 'animate-slide-up z-10' : ''}`}
-        >
-          <div className="absolute -z-10 w-full h-full grid grid-rows-2 grid-cols-1 p-3">
-            <button
-              type="button"
-              className={`flex justify-between items-center py-4 px-2 text-left font-semibold hover:bg-navigation-icon-hover rounded-md transition-opacity duration-700 ease`}
-              onClick={() =>
-                handleSelectPostAudience(PostAudienceActions.ANYONE)
-              }
-            >
-              Anyone
-              <Icon
-                icon="ic:baseline-greater-than"
-                fontSize={16}
-                className="text-primary"
-              />
-            </button>
-            <button
-              type="button"
-              className={`flex justify-between items-center py-4 px-2 text-left font-semibold hover:bg-navigation-icon-hover rounded-md transition-opacity duration-700 ease`}
-              onClick={() =>
-                handleSelectPostAudience(PostAudienceActions.FOLLOWERS)
-              }
-            >
-              Followers
-            </button>
+          >
+            <div className="absolute -z-10 w-full h-full grid grid-rows-2 grid-cols-1 p-3">
+              <button
+                type="button"
+                className={`flex justify-between items-center py-4 px-2 text-left font-semibold hover:bg-navigation-icon-hover rounded-md transition-opacity duration-700 ease`}
+                onClick={() =>
+                  handleSelectPostAudience(PostAudienceActions.ANYONE)
+                }
+              >
+                Anyone
+                <Icon
+                  icon="ic:baseline-greater-than"
+                  fontSize={16}
+                  className="text-primary"
+                />
+              </button>
+              <button
+                type="button"
+                className={`flex justify-between items-center py-4 px-2 text-left font-semibold hover:bg-navigation-icon-hover rounded-md transition-opacity duration-700 ease`}
+                onClick={() =>
+                  handleSelectPostAudience(PostAudienceActions.FOLLOWERS)
+                }
+              >
+                Followers
+              </button>
+            </div>
           </div>
         </div>
+        <Button type="submit" onClick={handleCreateNewPost}>
+          Post
+        </Button>
       </div>
-      <Button type="submit">Post</Button>
-    </div>
     </>
   );
 

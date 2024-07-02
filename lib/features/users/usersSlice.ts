@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import User from '@/classes/User';
+import type { User } from '@/types';
 
 import DUMMY_USERS from './dummy_users';
 
