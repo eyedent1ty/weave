@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Button from '../components/UI/Button';
 import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 import { openBackdrop } from '@/lib/features/backdrop/backdropSlice';
+import { openEditProfileDialog } from '@/lib/features/editProfileDialog/editProfileDialogSlice';
 import { formatNumber } from '@/utils';
 
 const ProfilePage = () => {
@@ -12,6 +13,7 @@ const ProfilePage = () => {
 
   const handleClickEditProfile = () => {
     dispatch(openBackdrop());
+    dispatch(openEditProfileDialog());
   };
 
   return (

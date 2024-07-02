@@ -13,24 +13,33 @@ interface EditProfileDialogInterface {
 }
 
 const EditProfileDialog: FC<EditProfileDialogInterface> = ({ open }) => {
+  const isOpen = useAppSelector((state) => state.editProfileDialog.isOpen);
   const currentUser = useAppSelector((state) => state.currentUser);
   const [profileDetails, setProfileDetails] = useState({
     ...currentUser,
     fullName: `${currentUser.firstName} ${currentUser.lastName}`
   });
 
-  console.log(currentUser.imageUrl);
-
   const mainContent = (
     <form className="pr-6">
       <div className="border-b border-border-color">
-        <label className="font-bold">Profile Picture <span className="font-normal">(jpg, png)</span></label>
+        <label className="font-bold">
+          Profile Picture <span className="font-normal">(jpg, png)</span>
+        </label>
         <div className="flex justify-between items-center mb-2">
-          <label htmlFor="profile-picture" className="bg-secondary text-primary px-3 py-2 rounded-lg text-sm cursor-pointer">
+          <label
+            htmlFor="profile-picture"
+            className="bg-secondary text-primary px-3 py-2 rounded-lg text-sm cursor-pointer"
+          >
             Change Profile Picture
           </label>
 
-          <input className="hidden" id="profile-picture" type="file" accept="image/*" />
+          <input
+            className="hidden"
+            id="profile-picture"
+            type="file"
+            accept="image/*"
+          />
 
           <Image
             src={currentUser.imageUrl}
@@ -96,13 +105,13 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({ open }) => {
     </div>
   );
 
-  return (
+  return isOpen ? (
     <Dialog
       open={open}
       mainContent={mainContent}
       footerContent={footerContent}
     />
-  );
+  ) : null;
 };
 
 export default EditProfileDialog;

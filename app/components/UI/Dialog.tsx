@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
 import useScreenWidth from '@/hooks/useScreenWidth';
 import type { ReactNode, FC } from 'react';
 

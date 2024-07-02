@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 import { closeReplyDialog } from '@/lib/features/replyDialog/replyDialogSlice';
+import { closeEditProfileDialog } from '@/lib/features/editProfileDialog/editProfileDialogSlice';
 
 const Backdrop: FC = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ const Backdrop: FC = () => {
         dispatch(closeBackdrop());
         dispatch(closePostDialog());
         dispatch(closeReplyDialog());
+        dispatch(closeEditProfileDialog());
       }
     };
 
@@ -62,9 +64,10 @@ const Backdrop: FC = () => {
   }, [isOpen]);
 
   const handleClick = () => {
-    dispatch(closeBackdrop())
+    dispatch(closeBackdrop());
     dispatch(closePostDialog());
     dispatch(closeReplyDialog());
+    dispatch(closeEditProfileDialog());
   };
 
   return (
