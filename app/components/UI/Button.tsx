@@ -10,7 +10,7 @@ interface ButtonProps {
 const Button: FC<ButtonProps> = ({ children, type, onClick, className }) => {
   return (
     <button
-      className={`border border-border-color px-4 py-1 rounded-lg font-semibold text-secondary bg-primary ${className}`}
+      className={`border border-border-color px-4 py-1 rounded-lg font-semibold bg-primary ${className}`}
       type={type}
       onClick={onClick}
     >

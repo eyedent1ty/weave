@@ -9,6 +9,7 @@ import FloatingButton from './components/UI/FloatingButton';
 import PostDialog from './components/PostDialog';
 import Backdrop from './components/UI/Backdrop';
 import ReplyDialog from './components/ReplyDialog';
+import EditProfileDialog from './components/dialogs/EditProfileDialog';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
           <PostDialog open={true} />
           <Backdrop />
           <ReplyDialog open={true} />
+          <EditProfileDialog open={true} />
         </body>
       </html>
     </StoreProvider>
