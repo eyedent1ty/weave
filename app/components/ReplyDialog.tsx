@@ -63,7 +63,6 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
             <img
               src={currentPost?.imagePostUrl}
               alt="image of the post"
-              className="rounded-3xl"
             />
           ) : null}
         </div>
@@ -76,7 +75,7 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
             height="36"
             width="36"
             alt={`${username} profile picture`}
-            className="rounded-full"
+            className="rounded-full mt-1"
           />
           <div className="border-l-2 border-border-color min-h-8 flex-1"></div>
 
