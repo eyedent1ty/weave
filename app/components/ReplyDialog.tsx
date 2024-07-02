@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react';
 import type { FC } from 'react';
-import { Icon } from '@iconify/react';
 import Dialog from './UI/Dialog';
 import Button from './UI/Button';
 import { useAppSelector } from '@/lib/hooks';
+import { useAppDispatch } from '@/lib/hooks';
+import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
+import { closeReplyDialog } from '@/lib/features/replyDialog/replyDialogSlice';
 
 interface ReplyDialogInterface {
   open: boolean;
@@ -17,6 +19,7 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
   const isOpen = useAppSelector((state) => state.replyDialog.isOpen);
   const currentPost = useAppSelector((state) => state.replyDialog.currentPost);
   const currentUser = useAppSelector((state) => state.currentUser);
+  const dispatch = useAppDispatch();
 
   const { imageUrl, username } = currentUser;
 
@@ -28,6 +31,13 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
     }
     console.log(content);
   }, [content]);
+
+  const handleClickCancel = () => {
+    dispatch(closeBackdrop());
+    dispatch(closeReplyDialog());
+  };
+
+  const headerContent = <button onClick={handleClickCancel}>Cancel</button>;
 
   const mainContent = (
     <div className="flex flex-col items-start">
@@ -102,6 +112,7 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
     isOpen && (
       <Dialog
         open={open}
+        headerContent={headerContent}
         mainContent={mainContent}
         footerContent={footerContent}
       />
