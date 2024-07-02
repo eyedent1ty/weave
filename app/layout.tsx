@@ -33,7 +33,7 @@ export default function RootLayout({
             </main>
           </div>
           <FloatingButton />
-          <PostDialog />
+          <PostDialog open={true} />
           <Backdrop />
           <ReplyDialog open={true} />
         </body>

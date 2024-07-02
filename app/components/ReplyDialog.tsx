@@ -106,7 +106,7 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
   );
 
   const footerContent = (
-    <div className="flex justify-end">
+    <div className="h-[84px] px-6 pt-6 flex justify-end items-end">
       <Button>Post</Button>
     </div>
   );

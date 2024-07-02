@@ -55,7 +55,7 @@ const Dialog = forwardRef<HTMLDialogElement, DialogInterface>(
         <main className="flex-1 overflow-auto overflow-x-hidden">
           {mainContent}
         </main>
-        <footer className="h-[84px] p-6 bg-primary">{footerContent}</footer>
+        <footer className="bg-primary">{footerContent}</footer>
       </motion.dialog>
     );
   }
