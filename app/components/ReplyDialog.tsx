@@ -8,7 +8,6 @@ import { useAppSelector } from '@/lib/hooks';
 import { useAppDispatch } from '@/lib/hooks';
 import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { closeReplyDialog } from '@/lib/features/replyDialog/replyDialogSlice';
-import useDialog from '@/hooks/useDialog';
 
 interface ReplyDialogInterface {
   open: boolean;
@@ -22,8 +21,6 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
   const currentUser = useAppSelector((state) => state.currentUser);
   const dispatch = useAppDispatch();
 
-  const dialogRef = useDialog(isOpen);
-
   const { imageUrl, username } = currentUser;
 
   // Resizable textarea based on its content
@@ -32,7 +29,6 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-    console.log(content);
   }, [content]);
 
   const handleClickCancel = () => {
@@ -117,7 +113,6 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
         headerContent={headerContent}
         mainContent={mainContent}
         footerContent={footerContent}
-        ref={dialogRef}
       />
     )
   );

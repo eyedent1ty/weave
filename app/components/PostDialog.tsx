@@ -14,6 +14,7 @@ import Post from '@/classes/Post';
 import Dialog from './UI/Dialog';
 import Button from './UI/Button';
 import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
+import useScreenWidth from '@/hooks/useScreenWidth';
 
 enum PostAudienceActions {
   ANYONE,
@@ -24,44 +25,15 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
   const [content, setContent] = useState('');
   const [isPostAudienceOpen, setIsPostAudienceOpen] = useState(false);
   const [postAudience, setPostAudience] = useState(PostAudienceActions.ANYONE);
-  const [width, setWidth] = useState(window.innerWidth);
+  const width = useScreenWidth();
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   const isOpen = useAppSelector((state) => state.postDialog.isOpen);
   const currentUser = useAppSelector((state) => state.currentUser);
   const dispatch = useAppDispatch();
 
   const { username, imageUrl, firstName, lastName } = currentUser;
-
-  // Resizing the width of the window
-  useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  // Keydown event (Escape)
-  useEffect(() => {
-    const handleKeydown = (e: KeyboardEvent) => {
-      if (e.code === 'Escape') {
-        dispatch(closePostDialog());
-      }
-    };
-
-    document.documentElement.addEventListener('keydown', handleKeydown);
-
-    return () => {
-      document.documentElement.removeEventListener('keydown', handleKeydown);
-    };
-  }, []);
 
   // Resizable textarea based on its content
   useEffect(() => {
@@ -70,48 +42,6 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [content]);
-
-  // Mount animation
-  useEffect(() => {
-    if (isOpen && dialogRef.current) {
-      const animationOptions = {
-        duration: 300
-      };
-
-      let keyframe = [
-        {
-          opacity: '0',
-          transform: 'translateY(200%)'
-        },
-        {
-          opacity: '1',
-          transform: 'translateY(0)'
-        }
-      ];
-
-      if (width >= 700) {
-        keyframe = [
-          {
-            opacity: '0',
-            transform: 'translateY(100px) scale(0.5)'
-          },
-          {
-            opacity: '1',
-            transform: 'translateY(-75%) scale(1)'
-          }
-        ];
-      }
-
-      const dialogAnimation = dialogRef.current.animate(
-        keyframe,
-        animationOptions
-      );
-
-      return () => {
-        dialogAnimation.cancel();
-      };
-    }
-  }, [isOpen]);
 
   const handleSelectPostAudience = (selectedAudience: PostAudienceActions) => {
     setPostAudience(selectedAudience);
@@ -142,7 +72,7 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
 
   const mainContent = (
     <form
-      className="relative flex flex-col h-full justify-between sm:h-auto"
+      className="relative flex flex-col h-full justify-between sm:h-auto pr-6"
       onSubmit={handleCreateNewPost}
     >
       <div className="flex gap-2">
@@ -245,7 +175,6 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
         headerContent={headerContent}
         mainContent={mainContent}
         footerContent={footerContent}
-        ref={dialogRef}
       />
     )
   );
