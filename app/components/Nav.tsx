@@ -19,8 +19,6 @@ interface NavigationDetail {
   activeIcon?: string;
 }
 
-
-
 const Nav: FC = () => {
   const pathname = usePathname();
   const menuDialog = useMenuDialog();

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useClerk } from '@clerk/nextjs';
 import { Icon } from '@iconify/react';
 
 const MenuDialog = ({
@@ -13,6 +14,7 @@ const MenuDialog = ({
   const [selectedTheme, setSelectedTheme] = useState<'LIGHT' | 'DARK' | 'AUTO'>(
     'LIGHT'
   );
+  const { signOut } = useClerk();
 
   const handleClickOutside = (e: Event) => {
     if (
@@ -137,6 +139,7 @@ const MenuDialog = ({
             className={`py-4 px-2 text-left font-semibold hover:bg-navigation-icon-hover rounded-md transition-opacity duration-700 ease ${
               isOpen ? 'opacity-1' : 'opacity-0'
             }`}
+            onClick={() => signOut({ redirectUrl: '/sign-up' })}
           >
             Log out
           </button>
