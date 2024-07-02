@@ -14,6 +14,8 @@ interface User {
   lastName: string;
   imageUrl: string;
   followers: number;
+  bio: string;
+  link: string;
 }
 
 export type { Post, User }
