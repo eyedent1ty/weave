@@ -11,6 +11,7 @@ import PostDialog from './components/PostDialog';
 import Backdrop from './components/UI/Backdrop';
 import ReplyDialog from './components/ReplyDialog';
 import EditProfileDialog from './components/dialogs/EditProfileDialog';
+import AuthDialog from './components/dialogs/AuthDialog';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -40,6 +41,7 @@ export default function RootLayout({
             <Backdrop />
             <ReplyDialog open={true} />
             <EditProfileDialog open={true} />
+            <AuthDialog open={true} />
           </body>
         </html>
       </StoreProvider>
