@@ -16,7 +16,11 @@ export default async function MainLayout({
 }) {
   const user = await currentUser();
 
-  console.log(user);
+  if (user === null) {
+    return;
+  }
+
+  const { imageUrl, username, firstName, lastName } = user;
 
   return (
     <>
@@ -30,7 +34,13 @@ export default async function MainLayout({
       <PostDialog open={true} />
       <Backdrop />
       <ReplyDialog open={true} />
-      <EditProfileDialog open={true} />
+      <EditProfileDialog
+        open={true}
+        imageUrl={imageUrl}
+        username={username!}
+        firstName={firstName!}
+        lastName={lastName!}
+      />
     </>
   );
 }

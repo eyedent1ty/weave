@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
-import type { FC, FormEvent } from 'react';
+import { useState, useEffect } from 'react';
+import type { FC } from 'react';
 import Dialog from '../UI/Dialog';
 import Button from '../UI/Button';
 import UserInput from '../UI/UserInput';
@@ -14,16 +14,48 @@ import { closeEditProfileDialog } from '@/lib/features/editProfileDialog/editPro
 
 interface EditProfileDialogInterface {
   open: boolean;
+  imageUrl: string;
+  username: string;
+  firstName: string;
+  lastName: string;
 }
 
-const EditProfileDialog: FC<EditProfileDialogInterface> = ({ open }) => {
+const EditProfileDialog: FC<EditProfileDialogInterface> = ({
+  open,
+  imageUrl,
+  username,
+  firstName,
+  lastName
+}) => {
   const isOpen = useAppSelector((state) => state.editProfileDialog.isOpen);
   const currentUser = useAppSelector((state) => state.currentUser);
+
+  const dispatch = useAppDispatch();
+
   const [profileDetails, setProfileDetails] = useState({
     ...currentUser
   });
 
-  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(
+      setCurrentUser({
+        ...currentUser,
+        imageUrl,
+        username,
+        firstName,
+        lastName
+      })
+    );
+
+    setProfileDetails({
+      ...currentUser,
+      imageUrl,
+      username,
+      firstName,
+      lastName
+    });
+
+  }, []);
 
   const handleClickDone = () => {
     dispatch(setCurrentUser({ ...profileDetails }));
@@ -34,7 +66,6 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({ open }) => {
   const mainContent = (
     <form className="pr-6">
       <div className="border-b border-border-color">
-        {currentUser.lastName}
         <label className="font-bold">
           Profile Picture <span className="font-normal">(jpg, png)</span>
         </label>
@@ -94,7 +125,7 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({ open }) => {
           placeholder="Last Name"
           onChange={(e) =>
             setProfileDetails((prev) => {
-              return ({ ...prev, lastName: e.target.value })
+              return { ...prev, lastName: e.target.value };
             })
           }
           className="my-2"
