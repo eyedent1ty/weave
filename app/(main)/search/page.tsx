@@ -5,8 +5,8 @@ import type { FC } from 'react';
 
 import { useAppSelector } from '@/lib/hooks';
 
-import Searchbar from '../components/search/Searchbar';
-import SearchList from '../components/search/SearchList';
+import Searchbar from '../../components/search/Searchbar';
+import SearchList from '../../components/search/SearchList';
 
 const SearchPage: FC = () => {
   const [query, setQuery] = useState('');

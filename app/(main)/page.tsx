@@ -1,5 +1,5 @@
-import NewThread from './components/home/NewThread';
-import ListOfPost from './components/home/ListOfPost';
+import NewThread from '../components/home/NewThread';
+import ListOfPost from '../components/home/ListOfPost';
 
 const Home = () => {
   return (

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Button from '../components/UI/Button';
+import Button from '@/app/components/UI/Button';
 import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 import { openBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { openEditProfileDialog } from '@/lib/features/editProfileDialog/editProfileDialogSlice';

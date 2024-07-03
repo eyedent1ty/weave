@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { FC } from 'react';
 import { Icon } from '@iconify/react';
@@ -8,7 +8,6 @@ import { Icon } from '@iconify/react';
 import { useAppDispatch } from '@/lib/hooks';
 import { openBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { openPostDialog } from '@/lib/features/postDialog/postDialogSlice';
-import { openAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
 
 import NavigationIcon from './NavigationIcon';
 import MenuDialog from './MenuDialog';
@@ -19,6 +18,7 @@ const Nav: FC = () => {
   const pathname = usePathname();
   const menuDialog = useMenuDialog();
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const navitationDetails = [
     {
@@ -57,7 +57,7 @@ const Nav: FC = () => {
   const isAuthenticated = false;
 
   const handleClickLogin = () => {
-    dispatch(openAuthDialog());
+    router.push('/auth');
   };
 
   return isAuthenticated ? (
@@ -112,7 +112,10 @@ const Nav: FC = () => {
             className="text-secondary"
           />
         </Link>
-        <Button className="bg-secondary text-primary border-none" onClick={handleClickLogin}>
+        <Button
+          className="bg-secondary text-primary border-none"
+          onClick={handleClickLogin}
+        >
           Log In
         </Button>
       </div>
