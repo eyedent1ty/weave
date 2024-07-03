@@ -16,31 +16,40 @@ export default async function MainLayout({
 }) {
   const user = await currentUser();
 
-  if (user === null) {
-    return;
-  }
-
-  const { imageUrl, username, firstName, lastName } = user;
+  console.log(user);
 
   return (
     <>
-      <div className="relative flex justify-center bg-tertiary text-secondary">
+      <div
+        className={`relative flex justify-center ${
+          user ? 'bg-tertiary' : 'bg-primary'
+        }  text-secondary`}
+      >
         {user === null ? <UnauthenticatedNav /> : <AuthenticatedNav />}
-        <main className="sm:mx-[76px] sm:max-w-[600px] pt-2 w-screen min-h-[calc(100vh)] sm:rounded-t-3xl sm:border border-border-color bg-primary text-secondary sm:mt-14 shadow-md">
+        <main
+          className={`sm:mx-[76px] sm:max-w-[600px] pt-2 w-screen min-h-[calc(100vh)] sm:rounded-t-3xl sm:border border-border-color bg-primary text-secondary ${
+            user ? 'sm:mt-14' : 'sm:mt-[130px]'
+          } shadow-md`}
+        >
           {children}
         </main>
       </div>
-      <FloatingButton />
-      <PostDialog open={true} />
       <Backdrop />
-      <ReplyDialog open={true} />
-      <EditProfileDialog
-        open={true}
-        imageUrl={imageUrl}
-        username={username!}
-        firstName={firstName!}
-        lastName={lastName!}
-      />
+
+      {user ? (
+        <>
+          <FloatingButton />
+          <PostDialog open={true} />
+          <ReplyDialog open={true} />
+          <EditProfileDialog
+            open={true}
+            imageUrl={user.imageUrl}
+            username={user.username!}
+            firstName={user.firstName!}
+            lastName={user.lastName!}
+          />
+        </>
+      ) : null}
     </>
   );
 }
