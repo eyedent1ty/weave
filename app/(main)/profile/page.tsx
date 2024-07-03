@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import EditProfileButton from '@/app/components/profile/EditProfileButton';
+import EditProfileButton from '@/components/profile/EditProfileButton';
 import { formatNumber } from '@/utils';
 import { currentUser } from '@clerk/nextjs/server';
 

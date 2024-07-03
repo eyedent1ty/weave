@@ -1,12 +1,12 @@
 import React from 'react';
 
-import FloatingButton from '../components/UI/FloatingButton';
-import PostDialog from '../components/PostDialog';
-import Backdrop from '../components/UI/Backdrop';
-import ReplyDialog from '../components/ReplyDialog';
-import EditProfileDialog from '../components/dialogs/EditProfileDialog';
-import AuthenticatedNav from '../components/navigations/AuthenticatedNav';
-import UnauthenticatedNav from '../components/navigations/UnauthenticatedNav';
+import FloatingButton from '@/components/UI/FloatingButton';
+import PostDialog from '@/components/PostDialog';
+import Backdrop from '@/components/UI/Backdrop';
+import ReplyDialog from '@/components/ReplyDialog';
+import EditProfileDialog from '@/components/dialogs/EditProfileDialog';
+import AuthenticatedNav from '@/components/navigations/AuthenticatedNav';
+import UnauthenticatedNav from '@/components/navigations/UnauthenticatedNav';
 import { currentUser } from '@clerk/nextjs/server';
 
 export default async function MainLayout({
