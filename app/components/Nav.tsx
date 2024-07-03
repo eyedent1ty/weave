@@ -12,12 +12,7 @@ import { openPostDialog } from '@/lib/features/postDialog/postDialogSlice';
 import NavigationIcon from './NavigationIcon';
 import MenuDialog from './MenuDialog';
 import useMenuDialog from '../../hooks/useMenuDialog';
-
-interface NavigationDetail {
-  href: string;
-  icon: string;
-  activeIcon?: string;
-}
+import Button from './UI/Button';
 
 const Nav: FC = () => {
   const pathname = usePathname();
@@ -58,7 +53,9 @@ const Nav: FC = () => {
     }
   ];
 
-  return (
+  const isAuthenticated = false;
+
+  return isAuthenticated ? (
     <nav className="fixed bottom-0 w-screen flex bg-inherit text-secondary sm:left-0 sm:h-screen sm:w-[76px] sm:flex sm:flex-col sm:justify-between sm:items-center">
       <Link href="/" className="hidden sm:block py-4">
         <Icon
@@ -71,7 +68,9 @@ const Nav: FC = () => {
         {navitationDetails.map((navigationDetail) => (
           <li
             key={navigationDetail.id}
-            className={`h-[64px] sm:w-[60px] sm:h-[60px] ${!navigationDetail.href ? 'sm:hidden' : ''}`}
+            className={`h-[64px] sm:w-[60px] sm:h-[60px] ${
+              !navigationDetail.href ? 'sm:hidden' : ''
+            }`}
           >
             <NavigationIcon
               {...navigationDetail}
@@ -98,6 +97,53 @@ const Nav: FC = () => {
         </button>
       </div>
     </nav>
+  ) : (
+    <>
+      <div className="fixed top-0 flex justify-between items-center w-full px-6 backdrop-blur-xl bg-white/90 h-full max-h-[74px] sm:hidden">
+        <Link href="/" className="">
+          <Icon
+            icon="icon-park-solid:three-triangles"
+            fontSize={34}
+            className="text-secondary"
+          />
+        </Link>
+        <Button className="bg-secondary text-primary border-none">
+          Log In
+        </Button>
+      </div>
+
+      <nav className="fixed bottom-0 w-screen flex bg-inherit text-secondary sm:flex sm:flex-row sm:bottom-auto sm:h-auto sm:w-full sm:top-0 sm:justify-between sm:items-center sm:backdrop-blur-xl sm:bg-white/80 sm:px-5 sm:py-3">
+        <Link href="/" className="hidden sm:block">
+          <Icon
+            icon="icon-park-solid:three-triangles"
+            fontSize={34}
+            className="text-secondary"
+          />
+        </Link>
+        <ul className="w-full grid grid-cols-5 items-center sm:w-auto sm:grid-cols-4 sm:gap-1">
+          {navitationDetails.map((navigationDetail) => (
+            <li
+              key={navigationDetail.id}
+              className={`h-[64px] sm:w-[100px] sm:h-[60px] ${
+                !navigationDetail.href ? 'sm:hidden' : ''
+              }`}
+            >
+              <NavigationIcon
+                {...navigationDetail}
+                active={pathname === navigationDetail.href || false}
+                lg
+              />
+            </li>
+          ))}
+        </ul>
+
+        <div className="hidden sm:block">
+          <Button className="bg-secondary text-primary border-none">
+            Log In
+          </Button>
+        </div>
+      </nav>
+    </>
   );
 };
 

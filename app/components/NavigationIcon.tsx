@@ -10,6 +10,7 @@ interface NavigationIconProps {
   active?: boolean;
   activeIcon?: string;
   onClick?: () => void;
+  lg?: boolean
 }
 
 const NavigationIcon: FC<NavigationIconProps> = ({
@@ -18,7 +19,8 @@ const NavigationIcon: FC<NavigationIconProps> = ({
   className = '',
   active = false,
   activeIcon,
-  onClick
+  onClick,
+  lg = false
 }) => {
   return href ? (
     <Link
@@ -29,7 +31,7 @@ const NavigationIcon: FC<NavigationIconProps> = ({
     >
       <Icon
         icon={(active ? activeIcon : icon) || icon}
-        fontSize={24}
+        fontSize={lg ? 32 : 24}
         className={`text-navigation-icon ${className} ${
           active ? 'text-secondary' : ''
         }`}
