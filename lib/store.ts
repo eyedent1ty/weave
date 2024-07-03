@@ -7,6 +7,7 @@ import backdropSlice from './features/backdrop/backdropSlice';
 import replyDialogSlice from './features/replyDialog/replyDialogSlice';
 import currentUserSlice from './features/currentUser/currentUserSlice';
 import editProfileDialogSlice from './features/editProfileDialog/editProfileDialogSlice';
+import authDialogSlice from './features/authDialog/authDialogSlice';
 
 export const makeStore = () => {
   return configureStore({
@@ -17,7 +18,8 @@ export const makeStore = () => {
       backdrop: backdropSlice,
       replyDialog: replyDialogSlice,
       currentUser: currentUserSlice,
-      editProfileDialog: editProfileDialogSlice
+      editProfileDialog: editProfileDialogSlice,
+      authDialog: authDialogSlice
     }
   });
 };

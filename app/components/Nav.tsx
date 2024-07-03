@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react';
 import { useAppDispatch } from '@/lib/hooks';
 import { openBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { openPostDialog } from '@/lib/features/postDialog/postDialogSlice';
+import { openAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
 
 import NavigationIcon from './NavigationIcon';
 import MenuDialog from './MenuDialog';
@@ -54,6 +55,10 @@ const Nav: FC = () => {
   ];
 
   const isAuthenticated = false;
+
+  const handleClickLogin = () => {
+    dispatch(openAuthDialog());
+  };
 
   return isAuthenticated ? (
     <nav className="fixed bottom-0 w-screen flex bg-inherit text-secondary sm:left-0 sm:h-screen sm:w-[76px] sm:flex sm:flex-col sm:justify-between sm:items-center">
@@ -107,7 +112,7 @@ const Nav: FC = () => {
             className="text-secondary"
           />
         </Link>
-        <Button className="bg-secondary text-primary border-none">
+        <Button className="bg-secondary text-primary border-none" onClick={handleClickLogin}>
           Log In
         </Button>
       </div>
@@ -138,7 +143,10 @@ const Nav: FC = () => {
         </ul>
 
         <div className="hidden sm:block">
-          <Button className="bg-secondary text-primary border-none">
+          <Button
+            className="bg-secondary text-primary border-none"
+            onClick={handleClickLogin}
+          >
             Log In
           </Button>
         </div>

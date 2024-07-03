@@ -5,15 +5,19 @@ import type { FC } from 'react';
 import Dialog from '../UI/Dialog';
 import Button from '../UI/Button';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { useAppSelector, useAppDispatch } from '@/lib/hooks';
+import { closeAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
 
 interface AuthDialogProps {
   open: boolean;
 }
 
 const AuthDialog: FC<AuthDialogProps> = ({ open }) => {
+  const isOpen = useAppSelector((state) => state.authDialog.isOpen);
+  const dispatch = useAppDispatch();
 
   const handleClickExit = () => {
-    console.log('Exit');
+    dispatch(closeAuthDialog());
   };
 
   const mainContent = (
@@ -51,9 +55,7 @@ const AuthDialog: FC<AuthDialogProps> = ({ open }) => {
     </div>
   );
 
-  return (
-    <Dialog open={open} mainContent={mainContent} />
-  );
+  return isOpen && <Dialog open={open} mainContent={mainContent} />;
 };
 
 export default AuthDialog;
