@@ -5,13 +5,7 @@ import './globals.css';
 
 import StoreProvider from './StoreProvider';
 
-import Nav from './components/Nav';
-import FloatingButton from './components/UI/FloatingButton';
-import PostDialog from './components/PostDialog';
-import Backdrop from './components/UI/Backdrop';
-import ReplyDialog from './components/ReplyDialog';
-import EditProfileDialog from './components/dialogs/EditProfileDialog';
-import AuthDialog from './components/dialogs/AuthDialog';
+
 
 const inter = Inter({ subsets: ['latin'] });
 
