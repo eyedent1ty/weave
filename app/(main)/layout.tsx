@@ -7,6 +7,7 @@ import ReplyDialog from '@/components/ReplyDialog';
 import EditProfileDialog from '@/components/dialogs/EditProfileDialog';
 import AuthenticatedNav from '@/components/navigations/AuthenticatedNav';
 import UnauthenticatedNav from '@/components/navigations/UnauthenticatedNav';
+import AuthDialog from '@/components/dialogs/AuthDialog';
 import { currentUser } from '@clerk/nextjs/server';
 
 export default async function MainLayout({
@@ -15,8 +16,6 @@ export default async function MainLayout({
   children: React.ReactNode;
 }) {
   const user = await currentUser();
-
-  console.log(user);
 
   return (
     <>
@@ -50,6 +49,7 @@ export default async function MainLayout({
           />
         </>
       ) : null}
+      <AuthDialog />
     </>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import type { FC } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import Button from '../UI/Button';
@@ -9,15 +9,16 @@ import NavigationIcon from '../NavigationIcon';
 import { useAppDispatch } from '@/lib/hooks';
 import { openBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { openPostDialog } from '@/lib/features/postDialog/postDialogSlice';
+import { openAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
 
 const UnauthenticatedNav: FC = () => {
   const pathname = usePathname();
-  const router = useRouter();
 
   const dispatch = useAppDispatch();
 
   const handleClickLogin = () => {
-    router.push('/auth');
+    dispatch(openBackdrop());
+    dispatch(openAuthDialog());
   };
 
   const navitationDetails = [

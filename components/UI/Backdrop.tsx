@@ -7,6 +7,7 @@ import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 import { closeReplyDialog } from '@/lib/features/replyDialog/replyDialogSlice';
 import { closeEditProfileDialog } from '@/lib/features/editProfileDialog/editProfileDialogSlice';
+import { closeAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
 
 const Backdrop: FC = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +22,7 @@ const Backdrop: FC = () => {
         dispatch(closePostDialog());
         dispatch(closeReplyDialog());
         dispatch(closeEditProfileDialog());
+        dispatch(closeAuthDialog());
       }
     };
 
@@ -68,6 +70,7 @@ const Backdrop: FC = () => {
     dispatch(closePostDialog());
     dispatch(closeReplyDialog());
     dispatch(closeEditProfileDialog());
+    dispatch(closeAuthDialog());
   };
 
   return (
