@@ -1,10 +1,9 @@
 import NewThread from '@/components/home/NewThread';
 import ListOfPost from '@/components/home/ListOfPost';
 
-import { currentUser } from '@clerk/nextjs/server';
-
 const Home = async () => {
-  const user = await currentUser();
+
+  const user = false;
 
   return (
     <>

@@ -8,14 +8,13 @@ import EditProfileDialog from '@/components/dialogs/EditProfileDialog';
 import AuthenticatedNav from '@/components/navigations/AuthenticatedNav';
 import UnauthenticatedNav from '@/components/navigations/UnauthenticatedNav';
 import AuthDialog from '@/components/dialogs/AuthDialog';
-import { currentUser } from '@clerk/nextjs/server';
 
 export default async function MainLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  const user = await currentUser();
+  const user = false;
 
   return (
     <>
@@ -35,21 +34,11 @@ export default async function MainLayout({
       </div>
       <Backdrop />
 
-      {user ? (
-        <>
-          <FloatingButton />
-          <PostDialog open={true} />
-          <ReplyDialog open={true} />
-          <EditProfileDialog
-            open={true}
-            imageUrl={user.imageUrl}
-            username={user.username!}
-            firstName={user.firstName!}
-            lastName={user.lastName!}
-          />
-        </>
-      ) : null}
       <AuthDialog />
+      <FloatingButton />
+      <PostDialog open={true} />
+      <ReplyDialog open={true} />
+      <EditProfileDialog open={true} />
     </>
   );
 }

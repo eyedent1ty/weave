@@ -1,14 +1,10 @@
 import Image from 'next/image';
 import EditProfileButton from '@/components/profile/EditProfileButton';
+import { useAppSelector } from '@/lib/hooks';
 import { formatNumber } from '@/utils';
-import { currentUser } from '@clerk/nextjs/server';
 
 const ProfilePage = async () => {
-  const user = await currentUser();
-
-  if (user === null) {
-    return <h1>Hello World</h1>;
-  }
+  const user = useAppSelector((state) => state.currentUser);
 
   return (
     <main className="py-5 px-6">
@@ -28,9 +24,7 @@ const ProfilePage = async () => {
             className="rounded-full border border-border-color"
           />
         </section>
-        <section className="mt-3">
-          {formatNumber(123132515)} followers
-        </section>
+        <section className="mt-3">{formatNumber(123132515)} followers</section>
         <section className="mt-7">
           <EditProfileButton />
         </section>
