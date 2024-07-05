@@ -1,12 +1,11 @@
 import React from 'react';
-import { cookies } from 'next/headers';
-import { PrismaClient } from '@prisma/client';
-import { verify } from 'jsonwebtoken';
+
+import { useAppSelector } from '@/lib/hooks';
 
 import FloatingButton from '@/components/UI/FloatingButton';
-import PostDialog from '@/components/PostDialog';
+import PostDialog from '@/components/dialogs/PostDialog';
 import Backdrop from '@/components/UI/Backdrop';
-import ReplyDialog from '@/components/ReplyDialog';
+import ReplyDialog from '@/components/dialogs/ReplyDialog';
 import Nav from '@/components/navigations/Nav';
 import AuthDialog from '@/components/dialogs/AuthDialog';
 import EditProfileDialog from '@/components/dialogs/EditProfileDialog';
@@ -16,32 +15,19 @@ export default async function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const token = cookies().get('jsonwebtoken')?.value;
-
-  let user = null;
-
-  if (token) {
-    const prisma = new PrismaClient();
-    const { username } = verify(token, 'SECRETKEY') as { username: string };
-
-    user = await prisma.user.findFirst({
-      where: {
-        username: username
-      }
-    });
-  }
+  const currentUser = useAppSelector((state) => state.users.currentUser);
 
   return (
     <>
       <div
         className={`relative flex justify-center ${
-          user ? 'bg-tertiary' : 'bg-primary'
+          currentUser ? 'bg-tertiary' : 'bg-primary'
         }  text-secondary`}
       >
         <Nav />
         <main
           className={`sm:mx-[76px] sm:max-w-[600px] pt-2 w-screen min-h-[calc(100vh)] sm:rounded-t-3xl sm:border border-border-color bg-primary text-secondary ${
-            user ? 'sm:mt-14' : 'sm:mt-[130px]'
+            currentUser ? 'sm:mt-14' : 'sm:mt-[130px]'
           } shadow-md`}
         >
           {children}
@@ -49,16 +35,11 @@ export default async function MainLayout({
       </div>
       <Backdrop />
 
-      {user ? (
-        <>
-          <FloatingButton />
-          <PostDialog user={user} open={true} />
-          <ReplyDialog open={true} />
-          <EditProfileDialog user={user} open={true} />
-        </>
-      ) : (
-        <AuthDialog />
-      )}
+      <PostDialog />
+      <FloatingButton />
+      <ReplyDialog />
+      <EditProfileDialog />
+      <AuthDialog />
     </>
   );
 }

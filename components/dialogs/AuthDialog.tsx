@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, type FC, type FormEvent } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import Dialog from '../UI/Dialog';
@@ -11,8 +10,8 @@ import UserInput from './UserInput';
 import { useAppSelector } from '@/lib/hooks';
 import { useAppDispatch } from '@/lib/hooks';
 import { fetchAllUsers, setCurrentUser } from '@/lib/features/users/usersSlice';
-import { closeAuthDialog, openAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
-import { closeBackdrop, openBackdrop } from '@/lib/features/backdrop/backdropSlice';
+import { closeAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
+import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 
 interface NewUserCredentials {
   firstName: string;
@@ -23,6 +22,7 @@ interface NewUserCredentials {
 
 const AuthDialog: FC = () => {
   const isOpen = useAppSelector((state) => state.authDialog.isOpen);
+  const currentUser = useAppSelector((state) => state.users.currentUser);
   const usersSlice = useAppSelector((state) => state.users);
   const router = useRouter();
   const [isUsernameAlreadyExist, setIsUsernameAlreadyExist] = useState(false);
@@ -271,17 +271,7 @@ const AuthDialog: FC = () => {
     </div>
   );
 
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    if (searchParams.has('auth')) {
-      dispatch(openBackdrop());
-      dispatch(openAuthDialog());
-    }
-  }, [searchParams]);
-
-
-  return isOpen && <Dialog mainContent={mainContent} />;
+  return isOpen && currentUser && <Dialog mainContent={mainContent} />;
 };
 
 export default AuthDialog;

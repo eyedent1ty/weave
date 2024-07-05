@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import type { FC } from 'react';
-import type { User } from '@/types';
 import Dialog from '../UI/Dialog';
 import Button from '../UI/Button';
 import UserInput from '../UI/UserInput';
@@ -12,25 +11,21 @@ import { useAppDispatch } from '@/lib/hooks';
 import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { closeEditProfileDialog } from '@/lib/features/editProfileDialog/editProfileDialogSlice';
 
-interface EditProfileDialogInterface {
-  open: boolean;
-  user: User
-}
-
-const EditProfileDialog: FC<EditProfileDialogInterface> = ({
-  open,
-  user
-}) => {
+const EditProfileDialog: FC = () => {
   const isOpen = useAppSelector((state) => state.editProfileDialog.isOpen);
+  const currentUser = useAppSelector((state) => state.users.currentUser);
 
   const dispatch = useAppDispatch();
 
+  if (!currentUser) {
+    return;
+  }
+
   const [profileDetails, setProfileDetails] = useState({
-    ...user
+    ...currentUser
   });
 
   const handleClickDone = () => {
-    // dispatch(setCurrentUser({ ...profileDetails }));
     dispatch(closeBackdrop());
     dispatch(closeEditProfileDialog());
   };
@@ -58,13 +53,13 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({
 
           <div className="flex flex-col items-center">
             <Image
-              src={user.imageUrl}
-              alt={`${user.username} profile picture`}
+              src={currentUser.imageUrl}
+              alt={`${currentUser.username} profile picture`}
               width={80}
               height={80}
               className="rounded-full"
             />
-            <span>@{user.username}</span>
+            <span>@{currentUser.username}</span>
           </div>
         </div>
       </div>
@@ -148,13 +143,9 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({
     </div>
   );
 
-  return isOpen ? (
-    <Dialog
-      open={open}
-      mainContent={mainContent}
-      footerContent={footerContent}
-    />
-  ) : null;
+  return (
+    isOpen && <Dialog mainContent={mainContent} footerContent={footerContent} />
+  );
 };
 
 export default EditProfileDialog;
