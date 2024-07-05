@@ -8,7 +8,7 @@ import { Icon } from '@iconify/react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 
-import type { Post } from '@/types';
+import type { Post, User } from '@/types';
 
 import Dialog from './UI/Dialog';
 import Button from './UI/Button';
@@ -23,7 +23,12 @@ enum PostAudienceActions {
 
 let id = 11;
 
-const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
+interface PostDialogProps {
+  open: boolean;
+  user: User;
+}
+
+const PostDialog: FC<PostDialogProps> = ({ open, user }) => {
   const [content, setContent] = useState('');
   const [isPostAudienceOpen, setIsPostAudienceOpen] = useState(false);
   const [postAudience, setPostAudience] = useState(PostAudienceActions.ANYONE);
@@ -32,10 +37,9 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const isOpen = useAppSelector((state) => state.postDialog.isOpen);
-  const currentUser = useAppSelector((state) => state.currentUser);
   const dispatch = useAppDispatch();
 
-  const { username, imageUrl, firstName, lastName } = currentUser;
+  const { username, imageUrl, firstName, lastName } = user;
 
   // Resizable textarea based on its content
   useEffect(() => {
@@ -53,11 +57,11 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
   const handleCreateNewPost = () => {
     const newPost: Post = {
       id: id++,
-      username: currentUser.username,
+      username: user.username,
       datePosted: new Date().toString(),
       content: content,
       imagePostUrl: null,
-      userImageUrl: currentUser.imageUrl
+      userImageUrl: user.imageUrl
     };
 
     dispatch(addNewPost(newPost));

@@ -1,10 +1,35 @@
+import { cookies } from 'next/headers';
+import { PrismaClient } from '@prisma/client';
+import { verify } from 'jsonwebtoken';
+
+import { User } from '@/types';
+
 import Image from 'next/image';
 import EditProfileButton from '@/components/profile/EditProfileButton';
-import { useAppSelector } from '@/lib/hooks';
 import { formatNumber } from '@/utils';
 
 const ProfilePage = async () => {
-  const user = useAppSelector((state) => state.currentUser);
+  const token = cookies().get('jsonwebtoken')?.value!;
+
+  const prisma = new PrismaClient();
+  const { username } = verify(token, 'SECRETKEY') as { username: string };
+
+  const user = (await prisma.user.findFirst({
+    where: {
+      username
+    },
+    select: {
+      id: true,
+      username: true,
+      firstName: true,
+      lastName: true,
+      imageUrl: true,
+      bio: true,
+      link: true,
+      followers: true,
+      createdAt: true
+    }
+  }))!;
 
   return (
     <main className="py-5 px-6">
@@ -12,7 +37,7 @@ const ProfilePage = async () => {
         <section className="flex justify-between items-center">
           <div>
             <p className="font-bold text-2xl">
-              {user.firstName} {user.lastName}
+              {user?.firstName} {user?.lastName}
             </p>
             <p className="text-sm">{user.username}</p>
           </div>

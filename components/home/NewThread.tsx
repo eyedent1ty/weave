@@ -1,18 +1,18 @@
-'use client'
-
-import type { FC } from 'react';
+'use client';
 
 import { openBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { openPostDialog } from '@/lib/features/postDialog/postDialogSlice';
-import { useAppSelector, useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch } from '@/lib/hooks';
+import type { User } from '@/types';
 
 import Button from '../UI/Button';
 
-const NewThread: FC = () => {
-  const currentUser = useAppSelector((state) => state.currentUser);
+const NewThread = ({ user }: { user: User }) => {
   const dispatch = useAppDispatch();
 
-  const { imageUrl, username } = currentUser;
+  console.log(user);
+
+  const { imageUrl, username } = user;
 
   const handleOpenDialog = () => {
     dispatch(openBackdrop());

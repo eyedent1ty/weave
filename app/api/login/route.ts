@@ -1,9 +1,11 @@
+import { redirect } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import * as jwt from 'jsonwebtoken';
 
 export const POST = async (request: NextRequest) => {
   const prisma = new PrismaClient();
-
   const body = await request.json();
 
   try {
@@ -13,9 +15,19 @@ export const POST = async (request: NextRequest) => {
         password: body.password
       }
     });
-    return NextResponse.json(user, { status: 200 });
+
+    // Generate the token
+    const token = jwt.sign({ username: body.username }, 'SECRETKEY');
+
+    cookies().set('jsonwebtoken', token);
+
+    return NextResponse.json({ message: 'Hello World' });
   } catch (e) {
-    return NextResponse.json(e, { status: 404 });
+    console.log(e);
+    return NextResponse.json(
+      { success: false, message: 'Not Authenticated' },
+      { status: 404 }
+    );
   } finally {
     prisma.$disconnect();
   }

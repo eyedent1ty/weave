@@ -1,64 +1,36 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { FC } from 'react';
+import type { User } from '@/types';
 import Dialog from '../UI/Dialog';
 import Button from '../UI/Button';
 import UserInput from '../UI/UserInput';
 import { useAppSelector } from '@/lib/hooks';
 import { useAppDispatch } from '@/lib/hooks';
-import { setCurrentUser } from '@/lib/features/currentUser/currentUserSlice';
 import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { closeEditProfileDialog } from '@/lib/features/editProfileDialog/editProfileDialogSlice';
 
 interface EditProfileDialogInterface {
   open: boolean;
-  imageUrl: string;
-  username: string;
-  firstName: string;
-  lastName: string;
+  user: User
 }
 
 const EditProfileDialog: FC<EditProfileDialogInterface> = ({
   open,
-  imageUrl,
-  username,
-  firstName,
-  lastName
+  user
 }) => {
   const isOpen = useAppSelector((state) => state.editProfileDialog.isOpen);
-  const currentUser = useAppSelector((state) => state.currentUser);
 
   const dispatch = useAppDispatch();
 
   const [profileDetails, setProfileDetails] = useState({
-    ...currentUser
+    ...user
   });
 
-  useEffect(() => {
-    dispatch(
-      setCurrentUser({
-        ...currentUser,
-        imageUrl,
-        username,
-        firstName,
-        lastName
-      })
-    );
-
-    setProfileDetails({
-      ...currentUser,
-      imageUrl,
-      username,
-      firstName,
-      lastName
-    });
-
-  }, []);
-
   const handleClickDone = () => {
-    dispatch(setCurrentUser({ ...profileDetails }));
+    // dispatch(setCurrentUser({ ...profileDetails }));
     dispatch(closeBackdrop());
     dispatch(closeEditProfileDialog());
   };
@@ -86,13 +58,13 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({
 
           <div className="flex flex-col items-center">
             <Image
-              src={currentUser.imageUrl}
-              alt={`${currentUser.username} profile picture`}
+              src={user.imageUrl}
+              alt={`${user.username} profile picture`}
               width={80}
               height={80}
               className="rounded-full"
             />
-            <span>@{currentUser.username}</span>
+            <span>@{user.username}</span>
           </div>
         </div>
       </div>

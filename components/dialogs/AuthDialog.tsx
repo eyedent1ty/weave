@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, type FC, type FormEvent } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import Dialog from '../UI/Dialog';
 import Button from '../UI/Button';
@@ -9,8 +11,8 @@ import UserInput from './UserInput';
 import { useAppSelector } from '@/lib/hooks';
 import { useAppDispatch } from '@/lib/hooks';
 import { fetchAllUsers, setCurrentUser } from '@/lib/features/users/usersSlice';
-import { closeAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
-import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
+import { closeAuthDialog, openAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
+import { closeBackdrop, openBackdrop } from '@/lib/features/backdrop/backdropSlice';
 
 interface NewUserCredentials {
   firstName: string;
@@ -22,6 +24,7 @@ interface NewUserCredentials {
 const AuthDialog: FC = () => {
   const isOpen = useAppSelector((state) => state.authDialog.isOpen);
   const usersSlice = useAppSelector((state) => state.users);
+  const router = useRouter();
   const [isUsernameAlreadyExist, setIsUsernameAlreadyExist] = useState(false);
   const [isInvalidCredentials, setIsInvalidCredentials] = useState(false);
 
@@ -88,11 +91,9 @@ const AuthDialog: FC = () => {
         throw new Error('User does not exist');
       }
 
-      const loggedInUser = await response.json();
-
+      router.push('/profile');
       dispatch(closeAuthDialog());
       dispatch(closeBackdrop());
-      dispatch(setCurrentUser(loggedInUser));
 
       setIsInvalidCredentials(false);
     } catch (e) {
@@ -109,7 +110,13 @@ const AuthDialog: FC = () => {
             <section className="flex-1">
               <header className="text-3xl mb-4">Sign in</header>
               <form onSubmit={handleClickLogin}>
-                <p className={`${isInvalidCredentials ? 'opacity-1' : 'opacity-0'} font-medium text-red-400 text-sm transition-all ease-in duration-200`}>Invalid Credentials!</p>
+                <p
+                  className={`${
+                    isInvalidCredentials ? 'opacity-1' : 'opacity-0'
+                  } font-medium text-red-400 text-sm transition-all ease-in duration-200`}
+                >
+                  Invalid Credentials!
+                </p>
                 <div className="flex flex-col items-center gap-2">
                   <UserInput
                     id="username"
@@ -117,7 +124,10 @@ const AuthDialog: FC = () => {
                     placeholder="Username"
                     value={existingUser.username}
                     onChange={(e) =>
-                      setExistingUser((prev) => ({ ...prev, username: e.target.value }))
+                      setExistingUser((prev) => ({
+                        ...prev,
+                        username: e.target.value
+                      }))
                     }
                     required
                   />
@@ -260,6 +270,16 @@ const AuthDialog: FC = () => {
       )}
     </div>
   );
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.has('auth')) {
+      dispatch(openBackdrop());
+      dispatch(openAuthDialog());
+    }
+  }, [searchParams]);
+
 
   return isOpen && <Dialog mainContent={mainContent} />;
 };

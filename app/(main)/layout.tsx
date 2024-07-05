@@ -1,23 +1,36 @@
-'use client';
-
 import React from 'react';
+import { cookies } from 'next/headers';
+import { PrismaClient } from '@prisma/client';
+import { verify } from 'jsonwebtoken';
 
 import FloatingButton from '@/components/UI/FloatingButton';
 import PostDialog from '@/components/PostDialog';
 import Backdrop from '@/components/UI/Backdrop';
 import ReplyDialog from '@/components/ReplyDialog';
-import EditProfileDialog from '@/components/dialogs/EditProfileDialog';
 import AuthenticatedNav from '@/components/navigations/AuthenticatedNav';
 import UnauthenticatedNav from '@/components/navigations/UnauthenticatedNav';
 import AuthDialog from '@/components/dialogs/AuthDialog';
-import { useAppSelector } from '@/lib/hooks';
+import EditProfileDialog from '@/components/dialogs/EditProfileDialog';
 
-export default function MainLayout({
+export default async function MainLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  const user = useAppSelector((state) => state.users.currentUser);
+  const token = cookies().get('jsonwebtoken')?.value;
+
+  let user = null;
+
+  if (token) {
+    const prisma = new PrismaClient();
+    const { username } = verify(token, 'SECRETKEY') as { username: string };
+
+    user = await prisma.user.findFirst({
+      where: {
+        username: username
+      }
+    });
+  }
 
   return (
     <>
@@ -37,11 +50,16 @@ export default function MainLayout({
       </div>
       <Backdrop />
 
-      <AuthDialog />
-      <FloatingButton />
-      <PostDialog open={true} />
-      <ReplyDialog open={true} />
-      <EditProfileDialog open={true} />
+      {user ? (
+        <>
+          <FloatingButton />
+          <PostDialog user={user} open={true} />
+          <ReplyDialog open={true} />
+          <EditProfileDialog user={user} open={true} />
+        </>
+      ) : (
+        <AuthDialog />
+      )}
     </>
   );
 }

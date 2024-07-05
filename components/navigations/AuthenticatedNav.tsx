@@ -1,7 +1,7 @@
 'use client';
 
 import type { FC } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import NavigationIcon from '../NavigationIcon';
@@ -13,14 +13,9 @@ import useMenuDialog from '@/hooks/useMenuDialog';
 
 const Authenticated: FC = () => {
   const pathname = usePathname();
-  const router = useRouter();
   const menuDialog = useMenuDialog();
 
   const dispatch = useAppDispatch();
-
-  const handleClickLogin = () => {
-    router.push('/auth');
-  };
 
   const navitationDetails = [
     {

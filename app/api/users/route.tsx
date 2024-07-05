@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Fetching all the users
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
   const prisma = new PrismaClient();
 
   const allUsers = await prisma.user.findMany();
