@@ -2,7 +2,7 @@
 
 import { openBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { openPostDialog } from '@/lib/features/postDialog/postDialogSlice';
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import type { User } from '@/types';
 
 import Button from '../UI/Button';
@@ -10,9 +10,13 @@ import Button from '../UI/Button';
 const NewThread = ({ user }: { user: User }) => {
   const dispatch = useAppDispatch();
 
-  console.log(user);
+  const currentUser = useAppSelector((state) => state.users.currentUser);
 
-  const { imageUrl, username } = user;
+  if (!currentUser) {
+    return null;
+  }
+
+  const { imageUrl, username } = currentUser;
 
   const handleOpenDialog = () => {
     dispatch(openBackdrop());
