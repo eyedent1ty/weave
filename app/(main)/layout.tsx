@@ -14,7 +14,7 @@ export default async function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = false;
+  const user = null;
 
   return (
     <>
