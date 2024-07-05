@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import FloatingButton from '@/components/UI/FloatingButton';
@@ -8,13 +10,14 @@ import EditProfileDialog from '@/components/dialogs/EditProfileDialog';
 import AuthenticatedNav from '@/components/navigations/AuthenticatedNav';
 import UnauthenticatedNav from '@/components/navigations/UnauthenticatedNav';
 import AuthDialog from '@/components/dialogs/AuthDialog';
+import { useAppSelector } from '@/lib/hooks';
 
-export default async function MainLayout({
+export default function MainLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  const user = null;
+  const user = useAppSelector((state) => state.users.currentUser);
 
   return (
     <>

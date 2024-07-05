@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client/extension';
+import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const POST = async (request: NextRequest) => {
@@ -7,13 +7,12 @@ export const POST = async (request: NextRequest) => {
   const body = await request.json();
 
   try {
-    const user = await prisma.users.findFirstOrThrow({
+    const user = await prisma.user.findFirstOrThrow({
       where: {
         username: body.username,
         password: body.password
       }
     });
-
     return NextResponse.json(user, { status: 200 });
   } catch (e) {
     return NextResponse.json(e, { status: 404 });
