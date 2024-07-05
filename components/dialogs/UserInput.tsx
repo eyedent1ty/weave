@@ -6,6 +6,7 @@ interface UserInputProps {
   value?: string;
   placeholder?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
 }
 
 const UserInput: FC<UserInputProps> = (props) => {
