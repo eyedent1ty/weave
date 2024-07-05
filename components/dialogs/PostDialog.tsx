@@ -8,22 +8,20 @@ import { Icon } from '@iconify/react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 
-import type { Post } from '@/types';
-
-import Dialog from './UI/Dialog';
-import Button from './UI/Button';
 import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import useScreenWidth from '@/hooks/useScreenWidth';
-import { addNewPost } from '@/lib/features/posts/postsSlice';
+
+import type { User } from '@/types';
+
+import Dialog from '../UI/Dialog';
+import Button from '../UI/Button';
 
 enum PostAudienceActions {
   ANYONE,
   FOLLOWERS
 }
 
-let id = 11;
-
-const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
+const PostDialog: FC = () => {
   const [content, setContent] = useState('');
   const [isPostAudienceOpen, setIsPostAudienceOpen] = useState(false);
   const [postAudience, setPostAudience] = useState(PostAudienceActions.ANYONE);
@@ -32,12 +30,9 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const isOpen = useAppSelector((state) => state.postDialog.isOpen);
-  const currentUser = useAppSelector((state) => state.currentUser);
+  const currentUser = useAppSelector((state) => state.users.currentUser);
   const dispatch = useAppDispatch();
 
-  const { username, imageUrl, firstName, lastName } = currentUser;
-
-  // Resizable textarea based on its content
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -51,18 +46,7 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
   };
 
   const handleCreateNewPost = () => {
-    const newPost: Post = {
-      id: id++,
-      username: currentUser.username,
-      datePosted: new Date().toString(),
-      content: content,
-      imagePostUrl: null,
-      userImageUrl: currentUser.imageUrl
-    };
-
-    dispatch(addNewPost(newPost));
-    dispatch(closeBackdrop());
-    dispatch(closePostDialog());
+    console.log('CREATED NEW POST');
   };
 
   const headerContent = (
@@ -82,30 +66,32 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
       <div className="flex gap-2">
         <div className="flex flex-col items-center gap-y-2">
           <img
-            src={imageUrl}
+            src={currentUser?.imageUrl}
             height="36"
             width="36"
-            alt={`${username} profile picture`}
+            alt={`${currentUser?.username} profile picture`}
             className="rounded-full mt-2"
           />
           <div className="border-l-2 border-border-color min-h-8 flex-1"></div>
 
           <img
-            src={imageUrl}
+            src={currentUser?.imageUrl}
             height="20"
             width="20"
-            alt={`${username} profile picture`}
+            alt={`${currentUser?.username} profile picture`}
             className="rounded-full"
           />
         </div>
         <div className="flex flex-1 flex-col mt-2">
-          <p className="font-bold text-secondary ml-1">{username}</p>
+          <p className="font-bold text-secondary ml-1">
+            {currentUser?.username}
+          </p>
           <textarea
             className="outline-none resize-none min-h-6 ml-1 text-secondary bg-primary max-h-44"
             ref={textareaRef}
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder={`What's on your mind, ${firstName} ${lastName}?`}
+            placeholder={`What's on your mind, ${currentUser?.firstName} ${currentUser?.lastName}?`}
             rows={width >= 700 ? 1 : 2}
           ></textarea>
 
@@ -177,7 +163,6 @@ const PostDialog: FC<{ open?: boolean }> = ({ open }) => {
   return (
     isOpen && (
       <Dialog
-        open={open}
         headerContent={headerContent}
         mainContent={mainContent}
         footerContent={footerContent}

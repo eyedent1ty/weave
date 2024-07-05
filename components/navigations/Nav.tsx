@@ -1,26 +1,24 @@
 'use client';
 
 import type { FC } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
-import NavigationIcon from '../NavigationIcon';
-import MenuDialog from '../MenuDialog';
-import { useAppDispatch } from '@/lib/hooks';
+import NavigationIcon from '../home/NavigationIcon';
+import MenuDialog from '../home/MenuDialog';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { openBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { openPostDialog } from '@/lib/features/postDialog/postDialogSlice';
+import { openAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
 import useMenuDialog from '@/hooks/useMenuDialog';
+import Button from '../UI/Button';
 
-const Authenticated: FC = () => {
+const Nav: FC = () => {
   const pathname = usePathname();
-  const router = useRouter();
   const menuDialog = useMenuDialog();
+  const currentUser = useAppSelector((state) => state.users.currentUser);
 
   const dispatch = useAppDispatch();
-
-  const handleClickLogin = () => {
-    router.push('/auth');
-  };
 
   const navitationDetails = [
     {
@@ -56,7 +54,12 @@ const Authenticated: FC = () => {
     }
   ];
 
-  return (
+  const handleOpenAuthDialog = () => {
+    dispatch(openBackdrop());
+    dispatch(openAuthDialog());
+  };
+
+  return currentUser ? (
     <>
       <nav className="fixed bottom-0 w-screen flex bg-inherit text-secondary sm:left-0 sm:h-screen sm:w-[76px] sm:flex sm:flex-col sm:justify-between sm:items-center">
         <Link href="/" className="hidden sm:block py-4">
@@ -100,7 +103,60 @@ const Authenticated: FC = () => {
         </div>
       </nav>
     </>
+  ) : (
+    <>
+      <div className="fixed top-0 flex justify-between items-center w-full px-6 backdrop-blur-xl bg-white/90 h-full max-h-[74px] sm:hidden">
+        <Link href="/" className="">
+          <Icon
+            icon="icon-park-solid:three-triangles"
+            fontSize={34}
+            className="text-secondary"
+          />
+        </Link>
+        <Button
+          className="bg-secondary text-primary border-none"
+          onClick={handleOpenAuthDialog}
+        >
+          Log Inqweqwe
+        </Button>
+      </div>
+
+      <nav className="fixed bottom-0 w-screen flex bg-inherit text-secondary sm:flex sm:flex-row sm:bottom-auto sm:h-auto sm:w-full sm:top-0 sm:justify-between sm:items-center sm:backdrop-blur-xl sm:bg-white/80 sm:px-5 sm:py-3">
+        <Link href="/" className="hidden sm:block">
+          <Icon
+            icon="icon-park-solid:three-triangles"
+            fontSize={34}
+            className="text-secondary"
+          />
+        </Link>
+        <ul className="w-full grid grid-cols-5 items-center sm:w-auto sm:grid-cols-4 sm:gap-1">
+          {navitationDetails.map((navigationDetail) => (
+            <li
+              key={navigationDetail.id}
+              className={`h-[64px] sm:w-[100px] sm:h-[60px] ${
+                !navigationDetail.href ? 'sm:hidden' : ''
+              }`}
+            >
+              <NavigationIcon
+                {...navigationDetail}
+                active={pathname === navigationDetail.href || false}
+                lg
+              />
+            </li>
+          ))}
+        </ul>
+
+        <div className="hidden sm:block">
+          <Button
+            className="bg-secondary text-primary border-none"
+            onClick={handleOpenAuthDialog}
+          >
+            Log In
+          </Button>
+        </div>
+      </nav>
+    </>
   );
 };
 
-export default Authenticated;
+export default Nav;

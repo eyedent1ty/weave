@@ -7,11 +7,15 @@ import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { closePostDialog } from '@/lib/features/postDialog/postDialogSlice';
 import { closeReplyDialog } from '@/lib/features/replyDialog/replyDialogSlice';
 import { closeEditProfileDialog } from '@/lib/features/editProfileDialog/editProfileDialogSlice';
+import { closeAuthDialog } from '@/lib/features/authDialog/authDialogSlice';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 const Backdrop: FC = () => {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.backdrop.isOpen);
   const backdropRef = useRef<HTMLDivElement | null>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   // Keydown event
   useEffect(() => {
@@ -21,6 +25,7 @@ const Backdrop: FC = () => {
         dispatch(closePostDialog());
         dispatch(closeReplyDialog());
         dispatch(closeEditProfileDialog());
+        dispatch(closeAuthDialog());
       }
     };
 
@@ -64,10 +69,15 @@ const Backdrop: FC = () => {
   }, [isOpen]);
 
   const handleClick = () => {
+    if (searchParams.has('auth')) {
+      router.push('/');
+    }
+
     dispatch(closeBackdrop());
     dispatch(closePostDialog());
     dispatch(closeReplyDialog());
     dispatch(closeEditProfileDialog());
+    dispatch(closeAuthDialog());
   };
 
   return (

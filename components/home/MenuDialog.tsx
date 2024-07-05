@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { useClerk } from '@clerk/nextjs';
 import { Icon } from '@iconify/react';
+import { useRouter } from 'next/navigation';
 
 const MenuDialog = ({
   onClickOutside,
@@ -14,7 +14,7 @@ const MenuDialog = ({
   const [selectedTheme, setSelectedTheme] = useState<'LIGHT' | 'DARK' | 'AUTO'>(
     'LIGHT'
   );
-  const { signOut } = useClerk();
+  const router = useRouter();
 
   const handleClickOutside = (e: Event) => {
     if (
@@ -46,6 +46,15 @@ const MenuDialog = ({
 
   const handleClickAutoTheme = () => {
     setSelectedTheme('AUTO');
+  };
+
+  const handleClickLogout = async () => {
+    try {
+      await fetch('/api/logout');
+      router.push('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -139,7 +148,7 @@ const MenuDialog = ({
             className={`py-4 px-2 text-left font-semibold hover:bg-navigation-icon-hover rounded-md transition-opacity duration-700 ease ${
               isOpen ? 'opacity-1' : 'opacity-0'
             }`}
-            onClick={() => signOut({ redirectUrl: '/auth' })}
+            onClick={handleClickLogout}
           >
             Log out
           </button>

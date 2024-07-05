@@ -1,64 +1,27 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { FC } from 'react';
 import Dialog from '../UI/Dialog';
 import Button from '../UI/Button';
 import UserInput from '../UI/UserInput';
 import { useAppSelector } from '@/lib/hooks';
 import { useAppDispatch } from '@/lib/hooks';
-import { setCurrentUser } from '@/lib/features/currentUser/currentUserSlice';
 import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { closeEditProfileDialog } from '@/lib/features/editProfileDialog/editProfileDialogSlice';
 
-interface EditProfileDialogInterface {
-  open: boolean;
-  imageUrl: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-}
-
-const EditProfileDialog: FC<EditProfileDialogInterface> = ({
-  open,
-  imageUrl,
-  username,
-  firstName,
-  lastName
-}) => {
+const EditProfileDialog: FC = () => {
   const isOpen = useAppSelector((state) => state.editProfileDialog.isOpen);
-  const currentUser = useAppSelector((state) => state.currentUser);
+  const currentUser = useAppSelector((state) => state.users.currentUser);
 
   const dispatch = useAppDispatch();
 
-  const [profileDetails, setProfileDetails] = useState({
-    ...currentUser
-  });
-
-  useEffect(() => {
-    dispatch(
-      setCurrentUser({
-        ...currentUser,
-        imageUrl,
-        username,
-        firstName,
-        lastName
-      })
-    );
-
-    setProfileDetails({
-      ...currentUser,
-      imageUrl,
-      username,
-      firstName,
-      lastName
-    });
-
-  }, []);
+  if (!currentUser) {
+    return;
+  }
 
   const handleClickDone = () => {
-    dispatch(setCurrentUser({ ...profileDetails }));
     dispatch(closeBackdrop());
     dispatch(closeEditProfileDialog());
   };
@@ -103,14 +66,7 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({
         <UserInput
           id="first-name"
           type="text"
-          value={profileDetails.firstName}
           placeholder="First Name"
-          onChange={(e) =>
-            setProfileDetails((prev) => ({
-              ...prev,
-              firstName: e.target.value
-            }))
-          }
           className="my-2"
         />
       </div>
@@ -121,13 +77,7 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({
         <UserInput
           id="last-name"
           type="text"
-          value={profileDetails.lastName}
           placeholder="Last Name"
-          onChange={(e) =>
-            setProfileDetails((prev) => {
-              return { ...prev, lastName: e.target.value };
-            })
-          }
           className="my-2"
         />
       </div>
@@ -138,11 +88,7 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({
         <UserInput
           id="bio"
           type="text"
-          value={profileDetails.bio}
           placeholder="+ Write Bio"
-          onChange={(e) =>
-            setProfileDetails((prev) => ({ ...prev, bio: e.target.value }))
-          }
           className="my-2"
         />
       </div>
@@ -153,11 +99,7 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({
         <UserInput
           id="link"
           type="text"
-          value={profileDetails.link}
           placeholder="+ Add link"
-          onChange={(e) =>
-            setProfileDetails((prev) => ({ ...prev, link: e.target.value }))
-          }
           className="my-2"
         />
       </div>
@@ -176,13 +118,9 @@ const EditProfileDialog: FC<EditProfileDialogInterface> = ({
     </div>
   );
 
-  return isOpen ? (
-    <Dialog
-      open={open}
-      mainContent={mainContent}
-      footerContent={footerContent}
-    />
-  ) : null;
+  return (
+    isOpen && <Dialog mainContent={mainContent} footerContent={footerContent} />
+  );
 };
 
 export default EditProfileDialog;

@@ -1,19 +1,17 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import type { FC } from 'react';
-import Dialog from './UI/Dialog';
-import Button from './UI/Button';
-import { useAppSelector } from '@/lib/hooks';
-import { useAppDispatch } from '@/lib/hooks';
+
+import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 import { closeBackdrop } from '@/lib/features/backdrop/backdropSlice';
 import { closeReplyDialog } from '@/lib/features/replyDialog/replyDialogSlice';
 
-interface ReplyDialogInterface {
-  open: boolean;
-}
+import type { FC } from 'react';
 
-const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
+import Dialog from '../UI/Dialog';
+import Button from '../UI/Button';
+
+const ReplyDialog: FC = () => {
   const [content, setContent] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const isOpen = useAppSelector((state) => state.replyDialog.isOpen);
@@ -56,10 +54,7 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
           <p className="font-bold text-secondary">{currentPost?.username}</p>
           <p>{currentPost?.content}</p>
           {currentPost?.imagePostUrl ? (
-            <img
-              src={currentPost?.imagePostUrl}
-              alt="image of the post"
-            />
+            <img src={currentPost?.imagePostUrl} alt="image of the post" />
           ) : null}
         </div>
       </div>
@@ -109,7 +104,6 @@ const ReplyDialog: FC<ReplyDialogInterface> = ({ open = false }) => {
   return (
     isOpen && (
       <Dialog
-        open={open}
         headerContent={headerContent}
         mainContent={mainContent}
         footerContent={footerContent}
