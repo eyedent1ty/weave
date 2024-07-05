@@ -21,10 +21,6 @@ const EditProfileDialog: FC = () => {
     return;
   }
 
-  const [profileDetails, setProfileDetails] = useState({
-    ...currentUser
-  });
-
   const handleClickDone = () => {
     dispatch(closeBackdrop());
     dispatch(closeEditProfileDialog());
@@ -70,14 +66,7 @@ const EditProfileDialog: FC = () => {
         <UserInput
           id="first-name"
           type="text"
-          value={profileDetails.firstName}
           placeholder="First Name"
-          onChange={(e) =>
-            setProfileDetails((prev) => ({
-              ...prev,
-              firstName: e.target.value
-            }))
-          }
           className="my-2"
         />
       </div>
@@ -88,13 +77,7 @@ const EditProfileDialog: FC = () => {
         <UserInput
           id="last-name"
           type="text"
-          value={profileDetails.lastName}
           placeholder="Last Name"
-          onChange={(e) =>
-            setProfileDetails((prev) => {
-              return { ...prev, lastName: e.target.value };
-            })
-          }
           className="my-2"
         />
       </div>
@@ -105,11 +88,7 @@ const EditProfileDialog: FC = () => {
         <UserInput
           id="bio"
           type="text"
-          value={profileDetails.bio}
           placeholder="+ Write Bio"
-          onChange={(e) =>
-            setProfileDetails((prev) => ({ ...prev, bio: e.target.value }))
-          }
           className="my-2"
         />
       </div>
@@ -120,11 +99,7 @@ const EditProfileDialog: FC = () => {
         <UserInput
           id="link"
           type="text"
-          value={profileDetails.link}
           placeholder="+ Add link"
-          onChange={(e) =>
-            setProfileDetails((prev) => ({ ...prev, link: e.target.value }))
-          }
           className="my-2"
         />
       </div>

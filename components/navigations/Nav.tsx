@@ -54,7 +54,7 @@ const Nav: FC = () => {
     }
   ];
 
-  const handleClickLogin = () => {
+  const handleOpenAuthDialog = () => {
     dispatch(openBackdrop());
     dispatch(openAuthDialog());
   };
@@ -115,9 +115,9 @@ const Nav: FC = () => {
         </Link>
         <Button
           className="bg-secondary text-primary border-none"
-          onClick={handleClickLogin}
+          onClick={handleOpenAuthDialog}
         >
-          Log In
+          Log Inqweqwe
         </Button>
       </div>
 
@@ -149,7 +149,7 @@ const Nav: FC = () => {
         <div className="hidden sm:block">
           <Button
             className="bg-secondary text-primary border-none"
-            onClick={handleClickLogin}
+            onClick={handleOpenAuthDialog}
           >
             Log In
           </Button>

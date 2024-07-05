@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, type FC, type FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
 
 import Dialog from '../UI/Dialog';
 import Button from '../UI/Button';
@@ -24,7 +23,6 @@ const AuthDialog: FC = () => {
   const isOpen = useAppSelector((state) => state.authDialog.isOpen);
   const currentUser = useAppSelector((state) => state.users.currentUser);
   const usersSlice = useAppSelector((state) => state.users);
-  const router = useRouter();
   const [isUsernameAlreadyExist, setIsUsernameAlreadyExist] = useState(false);
   const [isInvalidCredentials, setIsInvalidCredentials] = useState(false);
 
@@ -91,7 +89,11 @@ const AuthDialog: FC = () => {
         throw new Error('User does not exist');
       }
 
-      router.push('/profile');
+      const { user, token } = await response.json();
+
+      localStorage.setItem('session', token);
+
+      dispatch(setCurrentUser(user));
       dispatch(closeAuthDialog());
       dispatch(closeBackdrop());
 
@@ -271,7 +273,7 @@ const AuthDialog: FC = () => {
     </div>
   );
 
-  return isOpen && currentUser && <Dialog mainContent={mainContent} />;
+  return isOpen && !currentUser && <Dialog mainContent={mainContent} />;
 };
 
 export default AuthDialog;

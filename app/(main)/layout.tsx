@@ -1,6 +1,9 @@
-import React from 'react';
+'use client';
 
-import { useAppSelector } from '@/lib/hooks';
+import { useEffect, type ReactNode } from 'react';
+
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { setCurrentUser } from '@/lib/features/users/usersSlice';
 
 import FloatingButton from '@/components/UI/FloatingButton';
 import PostDialog from '@/components/dialogs/PostDialog';
@@ -10,12 +13,30 @@ import Nav from '@/components/navigations/Nav';
 import AuthDialog from '@/components/dialogs/AuthDialog';
 import EditProfileDialog from '@/components/dialogs/EditProfileDialog';
 
-export default async function MainLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export default function MainLayout({ children }: { children: ReactNode }) {
   const currentUser = useAppSelector((state) => state.users.currentUser);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const session = localStorage.getItem('session');
+
+    const setSession = async () => {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token: session })
+      });
+
+      const { user } = await response.json();
+      dispatch(setCurrentUser(user));
+    };
+
+    if (session) {
+      setSession();
+    }
+  }, []);
 
   return (
     <>
