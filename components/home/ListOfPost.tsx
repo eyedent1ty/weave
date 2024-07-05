@@ -3,7 +3,7 @@
 import type { FC } from 'react';
 
 import { useAppSelector } from '@/lib/hooks';
-import PostItem from '../PostItem';
+import PostItem from './PostItem';
 
 const ListOfPost: FC = () => {
   const posts = useAppSelector((state) => state.posts);
