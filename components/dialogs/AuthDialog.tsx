@@ -18,6 +18,11 @@ const AuthDialog: FC = () => {
   const isOpen = useAppSelector((state) => state.authDialog.isOpen);
   const [registerTab, setRegisterTab] = useState(false);
 
+  const [existingUser, setExistingUser] = useState<{
+    username: string;
+    password: string;
+  }>({ username: '', password: '' });
+
   const [newUser, setNewUser] = useState<NewUserCredentials>({
     firstName: '',
     lastName: '',
@@ -25,11 +30,17 @@ const AuthDialog: FC = () => {
     password: ''
   });
 
-  const handleClickRegister = (e: FormEvent<HTMLFormElement>) => {
+  const handleClickRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(newUser);
-  }
+    const response = await fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newUser)
+    });
+  };
 
   const mainContent = (
     <div className={`pr-6`}>
@@ -40,14 +51,32 @@ const AuthDialog: FC = () => {
               <header className="text-3xl mb-4">Sign in</header>
               <form>
                 <div className="flex flex-col items-center gap-2">
-                  <UserInput id="username" type="text" placeholder="Username" />
+                  <UserInput
+                    id="username"
+                    type="text"
+                    placeholder="Username"
+                    value={existingUser.username}
+                    onChange={() =>
+                      setExistingUser((prev) => ({
+                        ...prev,
+                        username: prev.username
+                      }))
+                    }
+                  />
                   <UserInput
                     id="password"
                     type="password"
                     placeholder="Password"
+                    value={existingUser.password}
+                    onChange={() =>
+                      setExistingUser((prev) => ({
+                        ...prev,
+                        password: prev.password
+                      }))
+                    }
                   />
 
-                  <Button className="w-full bg-secondary text-primary py-2">
+                  <Button className="w-full bg-secondary text-primary py-2" type="submit">
                     Login
                   </Button>
                 </div>
@@ -76,7 +105,10 @@ const AuthDialog: FC = () => {
           <article className="flex items-center gap-4">
             <section className="flex-1">
               <header className="text-3xl mb-4">Register</header>
-              <form className="flex flex-col gap-3" onSubmit={handleClickRegister}>
+              <form
+                className="flex flex-col gap-3"
+                onSubmit={handleClickRegister}
+              >
                 <div className="flex gap-2">
                   <UserInput
                     id="first-name"
@@ -117,7 +149,10 @@ const AuthDialog: FC = () => {
                     }
                   />
                 </div>
-                <Button className="w-full bg-secondary text-primary py-2" type="submit">
+                <Button
+                  className="w-full bg-secondary text-primary py-2"
+                  type="submit"
+                >
                   Login
                 </Button>
               </form>

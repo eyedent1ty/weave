@@ -1,18 +1,39 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import type { User } from '@/types';
 
-import DUMMY_USERS from './dummy_users';
+const initialState = {
+  users: [] as User[],
+  loading: false,
+  error: '' as string | undefined
+};
 
-const initialState: User[] = DUMMY_USERS;
+export const fetchAllUsers = createAsyncThunk('users/fetchUsers', async () => {
+  try {
+    const response = await fetch('/api/users');
+    return await response.json();
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {
-    getUserById(state, action: PayloadAction<number>) {
-      console.log('Hello WOrld')
-    }
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchAllUsers.pending, (state) => {
+      state.loading = true;
+    });
+
+    builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    });
+
+    builder.addCase(fetchAllUsers.rejected, (state, action) => {
+      state.error = action.error.message;
+    });
   }
 });
 
